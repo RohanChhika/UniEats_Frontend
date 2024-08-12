@@ -16,7 +16,8 @@ root.render(
       domain="dev-vd2n3gc57jtwv2md.us.auth0.com"
       clientId="V8FJtXTfBrMCtuR1cd9sdyLcRl7rWhIs"
       authorizationParams={{
-      redirect_uri: window.location.origin
+      redirect_uri: window.location.origin,
+      audience:"http://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/"
         }}
       >
         {/* Render the main App component */}

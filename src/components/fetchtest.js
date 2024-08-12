@@ -10,7 +10,8 @@ const FetchDataComponent = () => {
         const fetchData = async () => {
             try {
                 const token= await getAccessTokenSilently();
-                const response = await fetch('http://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/', {
+                console.log(token)
+                const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/hello', {
                     method: 'GET', // or 'POST', 'PUT', 'DELETE', etc.
                     headers: {
                         'Content-Type': 'application/json',
