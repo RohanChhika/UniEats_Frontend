@@ -24,7 +24,7 @@ function App() {
         >
           Learn React
         </a>
-        <p> <Profile/> </p>
+      / <Profile/>
         <LogoutButton/>
       </header>
     </div>
