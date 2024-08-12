@@ -3,6 +3,8 @@ import './App.css';
 import LoginButton from './components/buttons/LoginButton';
 import LogoutButton from './components/buttons/LogoutButton';
 import Profile from './components/Pages/Profile';
+import FetchDataComponent from './components/fetchtest';
+
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
           Edit <code>src/App.js</code> and save to reload.
           <LoginButton/>
         </p>
+        <FetchDataComponent/>
         <a
           className="App-link"
           href="https://reactjs.org"
