@@ -1,24 +1,37 @@
 import './App.css';
-import LoginButton from './components/buttons/LoginButton';
-import LogoutButton from './components/buttons/LogoutButton';
+import LoginLogoutButton from './components/buttons/LoginLogoutButton';
 import FetchDataComponent from './components/fetchtest';
 import Welcome from './components/Pages/welcome';
+import LandingPage from './components/Pages/LandingPage';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
+  const { isAuthenticated } = useAuth0();
+
+  
   return (
     <div className="App">
       <header className="App-header">
-        <LoginButton />
+        <LoginLogoutButton/>
       </header>
 
       <main>
-        <Welcome />
-        <FetchDataComponent />
-
+      {isAuthenticated ? (
+          <>
+            <LandingPage />
+            <FetchDataComponent />
+          </>
+        ) : (
+          <Welcome />
+        )}
       </main>
 
       <footer className="App-footer">
-        <LogoutButton />
+        <p>© 2024 UNIEATS. All rights reserved.</p>
+        <aside className="footer-links"> 
+          <a href="#about">About Us</a>
+          <a href="#features">Our Services</a>
+        </aside>
       </footer>
     </div>
   );
