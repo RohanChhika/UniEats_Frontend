@@ -17,7 +17,7 @@ function App() {
 
       </main>
 
-      <footer>
+      <footer className="App-footer">
         <LogoutButton />
       </footer>
     </div>
