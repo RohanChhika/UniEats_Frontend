@@ -6,7 +6,11 @@ const LoginLogoutButton = () => {
 
   if (isAuthenticated){
     return (
+      <>
       <button className="button" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}> Log Out</button>
+      <button className="button">Cart</button>
+      <button className="button">View my Profile</button>
+      </>
     );
   }
   else {

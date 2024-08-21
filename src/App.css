@@ -256,6 +256,12 @@ html, body {
   color: #333; /* Dark text color for better readability */
   margin-bottom: 10px;
 }
+.restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
 
 .about-us-article p {
   font-size: 1.2em;
