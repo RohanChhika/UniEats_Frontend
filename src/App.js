@@ -1,32 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
 import LoginButton from './components/buttons/LoginButton';
 import LogoutButton from './components/buttons/LogoutButton';
-import Profile from './components/Pages/Profile';
 import FetchDataComponent from './components/fetchtest';
-
+import Welcome from './components/Pages/welcome';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-          <LoginButton/>
-        </p>
-        <FetchDataComponent/>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      / <Profile/>
-        <LogoutButton/>
+        <LoginButton />
       </header>
+
+      <main>
+        <Welcome />
+        <FetchDataComponent />
+
+      </main>
+
+      <footer>
+        <LogoutButton />
+      </footer>
     </div>
   );
 }

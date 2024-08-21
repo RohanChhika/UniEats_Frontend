@@ -1,31 +1,92 @@
+/* General styling for the entire application */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF;
+  font-family: 'Arial, sans-serif'; /* Modern, clean font */
+}
+
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  padding-top: 80px; /* Ensuring enough space from fixed header */
+  padding-bottom: 100px; /* Ensuring enough space from fixed footer */
+}
+
+.App-logo {
+  height: 70px;
+}
+
+.center-text {
+  flex-grow: 1; 
+  text-align: center;
+}
+
+.App-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 10px 20px;
+  background-color: black;
   color: white;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.App-header img {
+  position: absolute; /* Allows the logo to be positioned absolutely relative to its positioned parent */
+  left: 20px; /* Or adjust according to your layout */
+  height: 80px;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.App-footer {
+  width: 100%;
+  padding: 20px 10px;
+  background-color:  black; 
+  color: white;
+  text-align: center;
+  border-top: 1px solid #444;
+  position: fixed;
+  bottom: 0;                 
+  left: 0;
+  z-index: 1000;
 }
 
 .App-link {
-  color: #61dafb;
+  color: green;
+}
+
+.button {
+  background-color:  green;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  transition: background-color 0.3s, transform 0.2s;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color:  black;
+  transform: scale(1.1);
 }
 
 @keyframes App-logo-spin {
@@ -36,3 +97,321 @@
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 600px) {
+  .button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.admin-page {
+  font-size: 24px;
+  color: #333;
+  margin-top: 20px;
+}
+
+.motivation-select {
+  width: 300px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  cursor: pointer;
+  appearance: none;
+  background-color: white;
+  position: relative;
+}
+
+.motivation-select:hover {
+  background-color: #f0f0f0;
+}
+
+.motivation-select:focus {
+  border-color: black;
+  outline: none;
+}
+
+.motivation-detail {
+  max-width: 600px;
+  width: 90%; /* Responsive width */
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 20px auto;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.motivation-detail h3 {
+  margin-top: 0;
+  color:  black;
+}
+
+.motivation-detail p {
+  font-size: 16px;
+  color: #666;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px; /* Added margin-bottom for spacing */
+}
+
+/* Navigation Bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+}
+
+.navbar-logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 15px; /* Adjusted gap for closer links */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li {
+  display: inline;
+}
+
+.navbar-links a,
+.login-button {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 15px;
+  background-color: #444;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-links a:hover,
+.login-button:hover {
+  background-color: green;
+}
+
+/* Hero Section */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  background: url('./components/Images/burgerback.png') no-repeat center center/cover;
+  color: white;
+  text-align: center;
+}
+
+.hero-content {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+  transform: translateY(-50px);
+}
+
+.hero-section h1 {
+  font-size: 3em;
+  margin-bottom: 10px;
+}
+
+.hero-section p {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.cta-button {
+  background-color: green;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  background-color:  black;
+  transform: scale(1.1);
+}
+
+.hero-links {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.hero-links a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 15px;
+  background-color: green;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.hero-links a:hover {
+  background-color: #555;
+}
+
+/* About Us Section */
+.about-us-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  background-color: #ffffff; /* White background for content */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for better depth */
+  max-width: 800px; /* Limiting the width for better readability */
+  margin: 40px auto; /* Responsive margin */
+}
+
+.image-container {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.about-us-article {
+  flex: 2;
+  padding: 10px;
+}
+
+.about-us-article h1 {
+  font-size: 2em;
+  color: #333; /* Dark text color for better readability */
+  margin-bottom: 10px;
+}
+
+.about-us-article p {
+  font-size: 1.2em;
+  color: #666; /* Lighter text color for contrast */
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+/* Features Section */
+.features-section {
+  background-color: #f9f9f9;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.features-section h2 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.features-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.feature {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 250px;
+  text-align: center;
+}
+
+.feature h3 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: green;
+}
+
+.feature p {
+  font-size: 1em;
+  color: #666;
+}
+
+/* Footer */
+.footer {
+  background-color:  black;
+  color: white;
+  text-align: center;
+  padding: 20px 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer p {
+  margin: 0;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  margin: 10px 0;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.social-media {
+  display: flex;
+  justify-content: center;  /* Center the icons horizontally */
+  align-items: center;  /* Center the icons vertically */
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.social-media a {
+  color: white;
+  font-size: 1.5em;
+}
+
+@media (max-width: 600px) {
+  /* Responsive styling for smaller screens */
+  .about-us-section {
+      flex-direction: column;
+      text-align: center;
+  }
+
+  .image-container {
+      margin-right: 0;
+      margin-bottom: 20px;
+  }
+
+  .features-container {
+      flex-direction: column;
+  }
+}
+
+
