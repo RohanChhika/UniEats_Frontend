@@ -10,7 +10,7 @@ const FetchDataComponent = () => {
         const fetchData = async () => {
             try {
                 const token= await getAccessTokenSilently();
-                console.log(token)
+                //console.log(token)
                 const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/hello', {
                     method: 'GET', // or 'POST', 'PUT', 'DELETE', etc.
                     headers: {
@@ -28,7 +28,7 @@ const FetchDataComponent = () => {
                 if (response.ok) {
                     const result = await response.text();
                     setData(result);
-                    console.log('Data received from backend:', result);
+                    //console.log('Data received from backend:', result);
                 } else {
                     console.error('Error fetching data:', response.statusText);
                 }
