@@ -110,13 +110,20 @@ const LandingPage = () => {
   return (
     <div>
       <section>
-        <h2>Available Restaurants</h2>
-        <input
-          type="text"
-          placeholder="Search for a restaurant"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <section>
+          <section className="center-container">
+            <h2>Available Restaurants</h2>
+          </section>
+          <section className="center-container">
+            <input
+            type="text"
+            placeholder="Search for a restaurant"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </section>     
+        </section>
+        
         <div className="restaurant-grid">
           {filteredRestaurants.map((restaurant) => (
             <RestaurantCard key={restaurant.name} restaurant={restaurant} />

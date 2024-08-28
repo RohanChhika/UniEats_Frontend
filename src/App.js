@@ -11,8 +11,11 @@ function App() {
   
   return (
     <div className="App">
-      <header className="App-header">
-        <LoginLogoutButton/>
+      <header className="navbar">
+        <section className="navbar-logo">UNIEATS</section> 
+        <ul className="navbar-links">
+          <LoginLogoutButton className="login-button"/>
+        </ul>
       </header>
 
       <main>
@@ -25,7 +28,6 @@ function App() {
           <Welcome />
         )}
       </main>
-
       <footer className="App-footer">
         <p>© 2024 UNIEATS. All rights reserved.</p>
         <aside className="footer-links"> 
@@ -33,6 +35,7 @@ function App() {
           <a href="#features">Our Services</a>
         </aside>
       </footer>
+      
     </div>
   );
 }

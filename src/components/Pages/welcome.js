@@ -1,19 +1,20 @@
 import React from "react";
 import aboutUsImage from '../Images/aboutus.png';
 import burgerback from '../Images/burgerback.png';
+// import LoginLogoutButton from "../buttons/LoginLogoutButton";
 import '../../App.css';
 
 const Welcome = ({ showHeaderFooter = true }) => {
     return (
         <main className="home-screen"> 
-            {showHeaderFooter && (
+            {/* {showHeaderFooter && (
                 <nav className="navbar">
                     <section className="navbar-logo">UNIEATS</section> 
-                    {/* <ul className="navbar-links">
-                        <li><LoginButton className="login-button" /></li>
-                    </ul> */}
+                    <ul className="navbar-links">
+                       <LoginLogoutButton className="login-button"/>
+                    </ul>
                 </nav>
-            )}
+            )} */}
 
             <header className="hero-section" style={{ backgroundImage: `url(${burgerback})` }}>
                 <section className="hero-content"> 
@@ -66,15 +67,7 @@ const Welcome = ({ showHeaderFooter = true }) => {
                 </article>
             </section>
 
-            {showHeaderFooter && (
-                <footer className="footer">
-                    <p>© 2024 UNIEATS. All rights reserved.</p>
-                    <aside className="footer-links"> 
-                        <a href="#about">About Us</a>
-                        <a href="#features">Our Services</a>
-                    </aside>
-                </footer>
-            )}            
+                        
         </main>
     );
 };
