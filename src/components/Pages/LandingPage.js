@@ -8,7 +8,9 @@ const RestaurantCard = ({ restaurant }) => {
   return (
     <div className="restaurant-card">
       <img src={restaurant.image} alt={restaurant.name} />
-      <h3 className='restaurant-links'><Link to={`/restaurant/${restaurant.name}`}>{restaurant.name}</Link></h3>
+      <h3 className='restaurant-links'>
+        <Link to={`/restaurant/${restaurant.id}`}>{restaurant.name}</Link>
+      </h3>
       <p>{restaurant.description}</p>
       <div className="rating">
         {Array(restaurant.rating).fill(null).map((_, i) => (
@@ -20,7 +22,7 @@ const RestaurantCard = ({ restaurant }) => {
       </div>
     </div>
   );
-};
+}
 
 // const LandingPage = () => {
 //   const [restaurants, setRestaurants] = useState([

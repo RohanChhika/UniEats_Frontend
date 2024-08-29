@@ -330,6 +330,28 @@ input[type="text"] {
   color: white;
   font-size: 1.5em;
 }
+.menu-page-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.menu-items {
+  width: 70%;
+  padding-right: 20px;
+}
+
+.cart-container {
+  width: 25%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-left: 1px solid #ddd;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+}
+
 
 @media (max-width: 768px) {
   /* Responsive styling for smaller screens */

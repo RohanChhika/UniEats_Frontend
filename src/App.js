@@ -1,9 +1,11 @@
 import './App.css';
 import LoginLogoutButton from './components/buttons/LoginLogoutButton';
-import FetchDataComponent from './components/fetchtest';
 import Welcome from './components/Pages/welcome';
 import LandingPage from './components/Pages/LandingPage';
 import { useAuth0 } from "@auth0/auth0-react";
+import MenuPage from './components/Pages/menu';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 
 function App() {
   const { isAuthenticated } = useAuth0();
@@ -19,15 +21,12 @@ function App() {
       </header>
 
       <main>
-      {isAuthenticated ? (
-          <>
-            <LandingPage />
-            <FetchDataComponent />
-          </>
-        ) : (
-          <Welcome />
-        )}
-      </main>
+          <Routes>
+            <Route path="/" element={isAuthenticated ? <LandingPage /> : <Welcome />} />
+            <Route path="/restaurant/:id" element={<MenuPage />} />
+            {/* Add any additional routes here */}
+          </Routes>
+        </main>
       <footer className="App-footer">
         <p>© 2024 UNIEATS. All rights reserved.</p>
         <aside className="footer-links"> 
