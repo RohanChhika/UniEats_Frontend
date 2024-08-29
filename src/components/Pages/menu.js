@@ -1,44 +1,69 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import '../../App.css';
 
 const MenuPage = () => {
-  const { restaurantName } = useParams();
+  const { name } = useParams();
 
-  const mockMenuItems = [
-    {
-      id: 1,
-      name: "Grilled Salmon",
-      description: "Freshly grilled salmon with a touch of lemon",
-      ingredients: ["Salmon", "Lemon", "Salt"],
-      quantity: "1 piece",
-      price: 15.99,
-      dietary: ["Gluten-Free", "Pescatarian"]
-    },
-    {
-      id: 2,
-      name: "Caesar Salad",
-      description: "Classic Caesar salad with romaine lettuce and parmesan",
-      ingredients: ["Lettuce", "Parmesan", "Croutons"],
-      quantity: "1 bowl",
-      price: 12.00,
-      dietary: ["Vegetarian"]
-    },
-    {
-      id: 3,
-      name: "Vegan Burger",
-      description: "Plant-based burger with avocado and sprouts",
-      ingredients: ["Plant Patty", "Avocado", "Sprouts", "Bun"],
-      quantity: "1 burger",
-      price: 13.00,
-      dietary: ["Vegan", "Kosher"]
-    }
-  ];
+  // const mockMenuItems = [
+  //   {
+  //     id: 1,
+  //     name: "Grilled Salmon",
+  //     description: "Freshly grilled salmon with a touch of lemon",
+  //     ingredients: ["Salmon", "Lemon", "Salt"],
+  //     quantity: "1 piece",
+  //     price: 15.99,
+  //     dietary: ["Gluten-Free", "Pescatarian"]
 
-  const [menuItems, setMenuItems] = useState(mockMenuItems);
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Caesar Salad",
+  //     description: "Classic Caesar salad with romaine lettuce and parmesan",
+  //     ingredients: ["Lettuce", "Parmesan", "Croutons"],
+  //     quantity: "1 bowl",
+  //     price: 12.00,
+  //     dietary: ["Vegetarian"]
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Vegan Burger",
+  //     description: "Plant-based burger with avocado and sprouts",
+  //     ingredients: ["Plant Patty", "Avocado", "Sprouts", "Bun"],
+  //     quantity: "1 burger",
+  //     price: 13.00,
+  //     dietary: ["Vegan", "Kosher"]
+  //   }
+  // ];
+
+  const [menuItems, setMenuItems] = useState([]);
   const [filters, setFilters] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const { getAccessTokenSilently} = useAuth0();
+  
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        const token= await getAccessTokenSilently();
+        const response = await fetch(`https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewMenuItems`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+             'Authorization':`Bearer ${token}`
+          },
+          body: JSON.stringify({ restaurant: name }), // Pass the restaurant name in the request body
+        });
+        const data = await response.json();
+        setMenuItems(data); // Update the state with the fetched menu items
+      } catch (error) {
+        console.error('Error fetching menu items:', error);
+      }
+    };
+
+    fetchMenuItems();
+  }, [name,getAccessTokenSilently]);
 
   const handleFilterChange = (filter, isChecked) => {
     if (isChecked) {
@@ -72,7 +97,7 @@ const MenuPage = () => {
   return (
     <div className="menu-page-container">
       <div className="menu-items">
-        <h2>Menu for {restaurantName}</h2>
+        <h2>Menu for {name}</h2>
         
         <div>
           {['Vegan', 'Vegetarian', 'Gluten-Free', 'Halal', 'Kosher'].map(diet => (
@@ -84,7 +109,7 @@ const MenuPage = () => {
         </div>
         
         {filteredMenuItems.map(item => (
-          <div key={item.id} className="menu-item">
+          <div key={item.name} className="menu-item">
             <h3>{item.name}</h3>
             <p>{item.description}</p>
             <p>Ingredients: {item.ingredients.join(', ')}</p>

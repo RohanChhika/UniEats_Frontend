@@ -23,7 +23,7 @@ function App() {
       <main>
           <Routes>
             <Route path="/" element={isAuthenticated ? <LandingPage /> : <Welcome />} />
-            <Route path="/restaurant/:id" element={<MenuPage />} />
+            <Route path="/restaurant/:name" element={<MenuPage />} />
             {/* Add any additional routes here */}
           </Routes>
         </main>
