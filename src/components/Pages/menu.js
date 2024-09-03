@@ -97,7 +97,7 @@ const MenuPage = () => {
   return (
     <div className="menu-page-container">
       <div className="menu-items">
-        <h2>Menu for {name}</h2>
+        <h2 className="Heading">Menu for {name}</h2>
         
         <div>
           {['Vegan', 'Vegetarian', 'Gluten-Free', 'Halal', 'Kosher'].map(diet => (

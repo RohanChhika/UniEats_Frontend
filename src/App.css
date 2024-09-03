@@ -353,7 +353,124 @@ input[type="text"] {
 }
 
 
-@media (max-width: 768px) {
+/* Manu Page */
+.menu-page-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  gap: 20px;
+  background-color: #ffffff;
+}
+
+.menu-items {
+  width: 70%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.Heading{
+  font-size: 2rem;
+  margin-bottom: 20px;
+
+}
+
+.menu-item {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.menu-item p {
+  margin: 10px 0;
+  color: #666;
+}
+
+.menu-items div {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.menu-items label {
+  margin-right: 15px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.cart-container {
+  width: 25%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-left: 1px solid #ddd;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+  border-radius: 5px;
+}
+
+.cart-container h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.cart-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.cart-container li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.cart-container button {
+  background-color: #0075fa;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.cart-container button:hover {
+  background-color: #2600ff;
+}
+
+.cart-container h4 {
+  font-size: 1.25rem;
+  color: #333;
+  margin: 20px 0 10px;
+}
+
+.cart-container p {
+  margin: 20px 0;
+  font-size: 1rem;
+  color: #666;
+}
+
+@media (max-width: 800px) {
   /* Responsive styling for smaller screens */
   .about-us-section, .features-section {
     padding: 2rem 1rem;
@@ -409,6 +526,28 @@ input[type="text"] {
 
   .rating {
     font-size: 1rem;
+  }
+
+  .menu-page-container {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .menu-items {
+    width: 90%;
+  }
+
+  .menu-items .Heading {
+    font-size: 1.3rem;
+  }
+
+  .menu-items div {
+    flex-direction: column;
+  }
+
+  .cart-container {
+    width: 100%;
+    margin-top: 20px;
   }
 
 }
