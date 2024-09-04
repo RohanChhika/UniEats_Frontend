@@ -5,6 +5,8 @@ import LandingPage from './components/Pages/LandingPage';
 import { useAuth0 } from "@auth0/auth0-react";
 import MenuPage from './components/Pages/menu';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ReviewForm from './components/Pages/review';
+import ReservationPage from './components/Pages/Reservation';
 
 
 function App() {
@@ -24,6 +26,9 @@ function App() {
           <Routes>
             <Route path="/" element={isAuthenticated ? <LandingPage /> : <Welcome />} />
             <Route path="/restaurant/:name" element={<MenuPage />} />
+            <Route path="/review/:name" element ={<ReviewForm/>}/>
+            <Route path="/reservation/:name" element ={<ReservationPage/>}/>
+
             {/* Add any additional routes here */}
           </Routes>
         </main>

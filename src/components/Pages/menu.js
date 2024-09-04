@@ -2,9 +2,11 @@ import React, { useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../../App.css';
+import { Link } from 'react-router-dom';
 
 const MenuPage = () => {
   const { name } = useParams();
+  const decodedName = decodeURIComponent(name);
 
   // const mockMenuItems = [
   //   {
@@ -93,6 +95,7 @@ const MenuPage = () => {
     setCartItems([]);
     setTotalPrice(0);
   };
+  console.log(name);
 
   return (
     <div className="menu-page-container">
@@ -119,7 +122,13 @@ const MenuPage = () => {
           </div>
         ))}
       </div>
+      <Link to={`/review/${encodeURIComponent(decodedName)}`}>
+            <button className="button">Leave Review</button>
+        </Link>
 
+        <Link to={`/reservation/${encodeURIComponent(decodedName)}`}>
+            <button className="button">Book Reservation</button>
+        </Link>
       <div className="cart-container">
         <h3>Your Cart</h3>
         {cartItems.length > 0 ? (
@@ -134,9 +143,11 @@ const MenuPage = () => {
             </ul>
             <h4>Total: ${totalPrice.toFixed(2)}</h4>
             <button className="button" onClick={handleClearCart}>Clear Cart</button>
+
           </>
         ) : (
           <p>Your cart is empty</p>
+          
         )}
       </div>
     </div>
