@@ -31,7 +31,7 @@ const ReservationPage = () => {
             numberOfGuests: reservationData.guests,
             specialRequest: reservationData.specialRequests,
             restaurant: decodedName,
-            userID: user?.sub // Assuming `user?.sub` is the Auth0 user ID
+            userID: user?.sub 
         };
 
         try {

@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../../App.css';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 const MenuPage = () => {
   const { name } = useParams();
   const decodedName = decodeURIComponent(name);
+  const navigate = useNavigate();
+
 
   // const mockMenuItems = [
   //   {
@@ -95,7 +97,15 @@ const MenuPage = () => {
     setCartItems([]);
     setTotalPrice(0);
   };
-  console.log(name);
+
+  const handleCheckout = () => {
+    // Ask the user to confirm the checkout
+    if (window.confirm("Are you sure you want to proceed with checkout?")) {
+        // Redirect to the Profile page if confirmed
+        navigate("/profile");
+    }
+};
+
 
   return (
     <div className="menu-page-container">
@@ -143,7 +153,7 @@ const MenuPage = () => {
             </ul>
             <h4>Total: ${totalPrice.toFixed(2)}</h4>
             <button className="button" onClick={handleClearCart}>Clear Cart</button>
-
+            <button className="button" onClick={handleCheckout}>Checkout</button>  
           </>
         ) : (
           <p>Your cart is empty</p>
