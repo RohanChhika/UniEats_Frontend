@@ -7,11 +7,40 @@ function ReviewForm() {
     const { name } = useParams();
     const decodedName = decodeURIComponent(name);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(`Rating: ${rating}, Comment: '${comment}'`);
-        // Add API call to submit the review here
-        alert('Review submitted!');
+        
+        // Construct the review data
+        const reviewData = {
+            restaurant: decodedName,
+            rating: parseInt(rating, 10), // Convert rating to number
+            comment
+        };
+
+        try {
+            // Make the fetch request to your backend
+            const response = await fetch('http://localhost:3001/addReview', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reviewData)
+            });
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result.message); // or handle the response as needed
+                alert('Review submitted successfully!');
+            } else {
+                const errorData = await response.json();
+                console.error('Error:', errorData.message);
+                alert('Failed to submit review. Please try again.');
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+            alert('Failed to submit review. Please try again.');
+        }
+
+        // Reset form fields
         setRating(0);
         setComment('');
     };
