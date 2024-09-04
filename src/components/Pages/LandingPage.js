@@ -26,24 +26,20 @@ const RestaurantCard = ({ restaurant }) => {
 const LandingPage = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const { getAccessTokenSilently} = useAuth0();
+  const { getAccessTokenSilently,user} = useAuth0();
   // Fetch restaurants data from backend
   useEffect(() => {
+    // Function to fetch restaurants
     const fetchRestaurants = async () => {
       try {
-        const token= await getAccessTokenSilently();
-        const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewRestaurants',{
-                    method: 'GET', // or 'POST', 'PUT', 'DELETE', etc.
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization':`Bearer ${token}`
-                        // Add any other headers you need
-                        }
-                    // Uncomment the following lines if you're sending data
-                    // body: JSON.stringify({
-                    //     key: 'value' // your data here
-                    // })
-                }); // Replace with your actual backend URL
+        const token = await getAccessTokenSilently();
+        const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewRestaurants', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
@@ -53,9 +49,41 @@ const LandingPage = () => {
         console.error('Error fetching restaurant data:', error);
       }
     };
-
+  
+    // Function to sign up user
+    const signUpUser = async () => {
+      if (user) {
+        try {
+          const token = await getAccessTokenSilently();
+          const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/signUp', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ userID: user.sub })
+          });
+  
+          const data = await response.json();
+  
+          if (response.ok) {
+            console.log('User signed up successfully:', data.message);
+          } else {
+            console.error('Error signing up user:', data.message);
+          }
+        } catch (error) {
+          console.error('Error during sign-up:', error);
+        }
+      }
+    };
+  console.log("useEffect done")
+    // Call the functions
     fetchRestaurants();
-  }, [getAccessTokenSilently]);
+    signUpUser();
+  
+    // Ensure useEffect runs only when user or getAccessTokenSilently changes
+  }, [user, getAccessTokenSilently]);
+ 
 
   // Filtered restaurants based on search term
   const filteredRestaurants = restaurants.filter((restaurant) =>

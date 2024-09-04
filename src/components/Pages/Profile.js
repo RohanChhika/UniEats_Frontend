@@ -2,13 +2,64 @@ import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Profile = () => {
-    const { user, isAuthenticated } = useAuth0();
-    const [orders, setOrders] = useState([
-        { id: 1, description: "Grilled Salmon Order", status: "Pending", isCompleted: false },
-        { id: 2, description: "Vegan Burger Order", status: "Shipped", isCompleted: false },
-        { id: 3, description: "Caesar Salad Order", status: "Delivered", isCompleted: true }
-    ]);
+    const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+    const [orders, setOrders] = useState([]);
     const [credits, setCredits] = useState(120);  // Mock credits
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            const token = await getAccessTokenSilently();
+            if (isAuthenticated && user) {
+                try {
+                    const token = await getAccessTokenSilently();
+                    const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewOrders', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ userID: user.sub }) // Pass user ID to fetch orders
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        setOrders(data); // Update the state with the fetched orders
+                    } else {
+                        console.error('Failed to fetch orders');
+                    }
+                } catch (error) {
+                    console.error('Error fetching orders:', error);
+                }
+            }
+        };
+        const fetchUser = async () => {
+            if (isAuthenticated && user) {
+                try {
+                    const token = await getAccessTokenSilently();
+                    const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewUser', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ userID: user.sub }) // Pass user ID to fetch orders
+                    });
+
+                    if (response.ok) {
+                        const userInformation = await response.json();
+                        setCredits(userInformation[0].credits)
+                        console.log(userInformation[0].credits)
+                    } else {
+                        console.error('Failed to fetch users');
+                    }
+                } catch (error) {
+                    console.error('Error fetching users:', error);
+                }
+            }
+        };
+        fetchUser()
+        fetchOrders();
+    }, [isAuthenticated, user, getAccessTokenSilently]);
 
     const trackOrder = (orderId) => {
         alert(`Tracking logic for order ID: ${orderId}. Assume tracking details here.`);
@@ -22,28 +73,34 @@ const Profile = () => {
                     <p>Name: {user?.nickname || "Guest"}</p>
                     <p>Email: {user?.email || "guest@example.com"}</p>
                     <div>
-                        <h2>Ongoing Orders</h2>
+                        <h2>Orders</h2>
                         <ul>
-                            {orders.filter(order => !order.isCompleted).map(order => (
-                                <li key={order.id}>
-                                    {order.description} - Status: {order.status}
-                                    <button onClick={() => trackOrder(order.id)}>Track Order</button>
+                            {orders.map(order => (
+                                <li key={order._id}>
+                                    <div>
+                                        <strong>Date:</strong> {new Date(order.date).toLocaleDateString()}
+                                    </div>
+                                    <div>
+                                        <strong>Time:</strong> {order.time}
+                                    </div>
+                                    <div>
+                                        <strong>Total:</strong> ${order.total.toFixed(2)}
+                                    </div>
+                                    <div>
+                                        <strong>Restaurant:</strong> {order.restaurant}
+                                    </div>
+                                    <div>
+                                        <strong>Items:</strong> {order.items.join(', ')}
+                                    </div>
+                                    <div>
+                                        <strong>Status:</strong> {order.status}
+                                    </div>
                                 </li>
                             ))}
                         </ul>
                     </div>
                     <div>
-                        <h2>Past Orders</h2>
-                        <ul>
-                            {orders.filter(order => order.isCompleted).map(order => (
-                                <li key={order.id}>
-                                    {order.description} - Delivered on: {new Date().toLocaleDateString()}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div>
-                        <h2>Credits: ${credits}</h2>
+                    <h2>Credits: {credits !== undefined ? `$${credits.toFixed(2)}` : 'Loading...'}</h2>
                     </div>
                 </>
             ) : (

@@ -45,7 +45,7 @@ const MenuPage = () => {
   const [filters, setFilters] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const { getAccessTokenSilently} = useAuth0();
+  const { getAccessTokenSilently,user} = useAuth0();
   
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -65,7 +65,7 @@ const MenuPage = () => {
         console.error('Error fetching menu items:', error);
       }
     };
-
+    console.log("useE done")
     fetchMenuItems();
   }, [name,getAccessTokenSilently]);
 
@@ -98,12 +98,44 @@ const MenuPage = () => {
     setTotalPrice(0);
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async() => {
     // Ask the user to confirm the checkout
     if (window.confirm("Are you sure you want to proceed with checkout?")) {
-        // Redirect to the Profile page if confirmed
-        navigate("/profile");
-    }
+      const orderPayload = {
+          date: new Date().toISOString().split('T')[0], // Current date in ISO format
+          time: new Date().toTimeString().split(' ')[0], // Current time in HH:mm:ss format
+          items: cartItems.map(item => item.name),
+          restaurant: decodedName, // Assuming you have this fixed or derived from somewhere
+          userID: user?.sub, // Auth0 user ID
+          total: totalPrice // Example calculation
+      };
+
+      try {
+        const token= await getAccessTokenSilently();
+          const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/addOrder', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization':`Bearer ${token}`
+              },
+              body: JSON.stringify(orderPayload)
+          });
+
+          if (response.ok) {
+              const result = await response.json();
+              console.log('Order placed successfully:', result);
+              // Redirect to the Profile page if confirmed
+              navigate("/profile");
+          } else {
+              const errorData = await response.json();
+              console.error('Error placing order:', errorData.message);
+              alert('Failed to place the order. Please try again.');
+          }
+      } catch (error) {
+          console.error('Network error:', error);
+          alert('Failed to place the order. Please try again.');
+      }
+  }
 };
 
 
