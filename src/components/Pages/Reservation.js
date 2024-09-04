@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAuth0 } from "@auth0/auth0-react";
 
 const ReservationPage = () => {
     const { name } = useParams(); 
     const decodedName = decodeURIComponent(name);
+    const { user, isAuthenticated, isLoading } = useAuth0();
 
     const [reservationData, setReservationData] = useState({
         date: '',
@@ -35,8 +37,15 @@ const ReservationPage = () => {
     };
 
     return (
+        
         <div>
             <h1>Make a Reservation at {decodedName}</h1>
+            {isAuthenticated && !isLoading ? (
+                <p>Welcome, {user.sub}</p>  
+            ) : (
+                <p>Loading user information...</p>
+            )}
+
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>
@@ -65,6 +74,7 @@ const ReservationPage = () => {
                 <button type="submit">Submit Reservation</button>
             </form>
         </div>
+        
     );
 };
 
