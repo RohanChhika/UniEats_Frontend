@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { useAuth0 } from '@auth0/auth0-react';
 function ReviewForm() {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const { name } = useParams();
     const decodedName = decodeURIComponent(name);
-
+    const {getAccessTokenSilently } = useAuth0();
     const handleSubmit = async (event) => {
         event.preventDefault();
         
@@ -19,10 +19,12 @@ function ReviewForm() {
 
         try {
             // Make the fetch request to your backend
-            const response = await fetch('http://localhost:3001/addReview', {
+            const token= await getAccessTokenSilently();
+            const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/addReview', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization':`Bearer ${token}`
                 },
                 body: JSON.stringify(reviewData)
             });

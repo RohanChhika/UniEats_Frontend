@@ -5,7 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const ReservationPage = () => {
     const { name } = useParams(); 
     const decodedName = decodeURIComponent(name);
-    const { user, isAuthenticated, isLoading } = useAuth0();
+    const { user,getAccessTokenSilently } = useAuth0();
 
     const [reservationData, setReservationData] = useState({
         date: '',
@@ -22,30 +22,55 @@ const ReservationPage = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Submitting reservation data:', reservationData);
-        // Add here the POST request to your server or handling logic
-        alert(`Reservation submitted for ${decodedName}!`);
-        // Optionally redirect the user or clear form
-        setReservationData({
-            date: '',
-            time: '',
-            guests: 1,
-            specialRequests: ''
-        });
+
+        const reservationPayload = {
+            date: reservationData.date,
+            time: reservationData.time,
+            numberOfGuests: reservationData.guests,
+            specialRequest: reservationData.specialRequests,
+            restaurant: decodedName,
+            userID: user?.sub // Assuming `user?.sub` is the Auth0 user ID
+        };
+
+        try {
+            const token= await getAccessTokenSilently();
+            const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/addReservation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization':`Bearer ${token}`
+                },
+                body: JSON.stringify(reservationPayload)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Reservation submitted:', result);
+                alert(`Reservation submitted for ${decodedName}!`);
+                // Optionally redirect or clear the form
+                setReservationData({
+                    date: '',
+                    time: '',
+                    guests: 1,
+                    specialRequests: ''
+                });
+            } else {
+                const errorData = await response.json();
+                console.error('Error submitting reservation:', errorData.message);
+                alert('Failed to submit reservation. Please try again.');
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+            alert('Failed to submit reservation. Please try again.');
+        }
     };
 
     return (
         
         <div>
             <h1>Make a Reservation at {decodedName}</h1>
-            {isAuthenticated && !isLoading ? (
-                <p>Welcome, {user.sub}</p>  
-            ) : (
-                <p>Loading user information...</p>
-            )}
-
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>
