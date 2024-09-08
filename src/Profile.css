@@ -1,0 +1,69 @@
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-title {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.profile-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.prominent-credits {
+    font-size: 2rem;
+    color: #0075fa;
+    font-weight: bold;
+}
+
+.order-history {
+    margin-top: 30px;
+}
+
+.order-list {
+    list-style: none;
+    padding: 0;
+}
+
+.order-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-card strong {
+    color: #333;
+}
+
+.order-card div {
+    margin: 8px 0;
+}
+
+.order-card button {
+    background-color: #0075fa;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.order-card button:hover {
+    background-color: #004fbf;
+}

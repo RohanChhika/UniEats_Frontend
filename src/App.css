@@ -584,6 +584,71 @@ input[type="text"] {
     width: 100%;
     margin-top: 20px;
   }
+  /* Profile Page Styles */
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-title {
+  font-size: 2rem;
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-history {
+  margin-top: 30px;
+}
+
+.order-list {
+  list-style: none;
+  padding: 0;
+}
+
+.order-card {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-card strong {
+  color: #333;
+}
+
+.profile-card p, .order-card div {
+  margin: 8px 0;
+}
+
+@media (max-width: 600px) {
+  .profile-content {
+      flex-direction: column;
+  }
+}
+
+
+
+
+
 
 }
 
