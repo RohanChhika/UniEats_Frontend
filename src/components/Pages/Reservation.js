@@ -67,9 +67,14 @@ const ReservationPage = () => {
         }
     };
 
+    const handleBack = () => {
+        window.history.back();
+    };
+
     return (
         
-        <div>
+        <div className='reservation-page'>
+            <button className="back" onClick={handleBack}>Back</button>
             <h1>Make a Reservation at {decodedName}</h1>
             <form onSubmit={handleSubmit}>
                 <div>
@@ -96,7 +101,7 @@ const ReservationPage = () => {
                         <textarea name="specialRequests" value={reservationData.specialRequests} onChange={handleChange} />
                     </label>
                 </div>
-                <button type="submit">Submit Reservation</button>
+                <button type="submit" className='submitReservation'>Submit Reservation</button>
             </form>
         </div>
         

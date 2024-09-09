@@ -353,7 +353,7 @@ input[type="text"] {
 }
 
 
-/* Manu Page */
+/* Menu Page */
 .menu-page-container {
   display: flex;
   justify-content: space-between;
@@ -504,8 +504,138 @@ input[type="text"] {
   height: 100%;
 }
 
+.menu-back {
+  background-color: #2f4c5a; /* Blue background */
+  color: white; /* White text */
+  border: none;
+  border-radius: 5px;
+  padding: 5px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
 
-@media (max-width: 800px) {
+.menu-back:hover {
+  background-color: #3e4144; 
+  transform: scale(1.05);
+}
+
+
+/* Review Page */
+.review{
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ReviewHeading {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.review label {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.review select, .review textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.Submit {
+  width: 100%;
+  padding: 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.Submit:hover {
+  background-color: #218838;
+}
+
+/* Reservation Page */
+.reservation-page {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-page h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.reservation-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.reservation-page label {
+  font-size: 1.2rem;
+  color: #555;
+  display: block;
+}
+
+.reservation-page input[type="date"],
+.reservation-page input[type="time"],
+.reservation-page input[type="number"],
+.reservation-page textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.reservation-page textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.submitReservation {
+  width: 100%;
+  padding: 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitReservation {
+  background-color: #218838;
+}
+
+
+@media (max-width: 900px) {
   /* Responsive styling for smaller screens */
   .about-us-section, .features-section {
     padding: 2rem 1rem;
@@ -584,6 +714,58 @@ input[type="text"] {
     width: 100%;
     margin-top: 20px;
   }
+
+  .review {
+    padding: 15px;
+    width: 90%;
+    margin: 20px auto;
+  }
+
+  .ReviewHeading {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  .review select, .review textarea {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .review button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .reservation-page {
+    padding: 15px;
+    margin: 20px auto;
+  }
+
+  .reservation-page h1 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  .reservation-page input[type="date"],
+  .reservation-page input[type="time"],
+  .reservation-page input[type="number"],
+  .reservation-page textarea {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .submitReservation {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .menu-back {
+    font-size: 0.9rem;
+    padding: 8px 16px;  
+  }
+
+
+
   /* Profile Page Styles */
 .profile-container {
   max-width: 800px;
@@ -644,12 +826,6 @@ input[type="text"] {
       flex-direction: column;
   }
 }
-
-
-
-
-
-
 }
 
 

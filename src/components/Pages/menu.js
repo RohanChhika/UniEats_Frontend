@@ -138,9 +138,15 @@ const MenuPage = () => {
   }
 };
 
+const handleBack = () => {
+  window.history.back();
+};
+
+
 
   return (
     <div className="menu-page-container">
+      <button className="menu-back" onClick={handleBack}>Back</button>
       <div className="menu-items">
         <h2 className="Heading">Menu for {name}</h2>
         
