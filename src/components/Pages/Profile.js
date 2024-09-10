@@ -13,7 +13,7 @@ const Profile = () => {
             if (isAuthenticated && user) {
                 try {
                     const token = await getAccessTokenSilently();
-                    const response = await fetch('https://api-url/viewOrders', {
+                    const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewOrders', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const Profile = () => {
             if (isAuthenticated && user) {
                 try {
                     const token = await getAccessTokenSilently();
-                    const response = await fetch('https://api-url/viewUser', {
+                    const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewUser', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
