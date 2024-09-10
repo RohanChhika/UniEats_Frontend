@@ -5,7 +5,9 @@ import '../../Profile.css';
 const Profile = () => {
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [orders, setOrders] = useState([]);
+    const [reservations, setReservations] = useState([]);
     const [credits, setCredits] = useState(120); // Mock credits
+    const [voucher, setVoucher] = useState('');
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -18,7 +20,7 @@ const Profile = () => {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`,
                         },
-                        body: JSON.stringify({ userID: user.sub }),
+                        body: JSON.stringify({ userID: user.email }),
                     });
 
                     if (response.ok) {
@@ -58,22 +60,133 @@ const Profile = () => {
             }
         };
 
+        const fetchReservations = async () => {
+            if (isAuthenticated && user) {
+                try {
+                    const token = await getAccessTokenSilently();
+                    const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewReservations', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({ userID: user.sub }),
+                    });
+
+                    if (response.ok) {
+                        const reservations = await response.json();
+                        setReservations(reservations);
+                        console.log(reservations);
+                    } else {
+                        console.error('Failed to fetch user');
+                    }
+                } catch (error) {
+                    console.error('Error fetching user:', error);
+                }
+            }
+        };
+        fetchReservations();
         fetchUser();
         fetchOrders();
     }, [isAuthenticated, user, getAccessTokenSilently]);
 
-    const trackOrder = (orderId) => {
-        alert(`Tracking logic for order ID: ${orderId}. Assume tracking details here.`);
+    const completeOrder = async (orderId) => {
+        try {
+            const token = await getAccessTokenSilently(); 
+            const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/completeOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, 
+                },
+                body: JSON.stringify({orderID: orderId }), 
+            });
+    
+            const result = await response.json();
+    
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                alert(`Failed to complete order: ${result.message}`);
+            }
+        } catch (error) {
+            alert('An error occurred while completing the order.');
+        }
     };
 
-    // Handle back navigation
-    const handleBack = () => {
-        window.history.back();
+    const handleVoucherChange = (event) => {
+        setVoucher(event.target.value);
     };
 
+    const handleVoucherSubmit = async () => {
+        const validVouchers = ["OneHundred", "TwoHundred", "Fifty"];
+        if (!validVouchers.includes(voucher)) {
+            alert('Please enter a valid voucher code (OneHundred, TwoHundred, or Fifty).');
+            return;
+        }
+     
+        try {
+            const token = await getAccessTokenSilently(); 
+            const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/addCredits', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, 
+                },
+                body: JSON.stringify({
+                    userID: user.sub, 
+                    vouch: voucher 
+                }),
+            });
+    
+            const result = await response.json();
+    
+            if (response.ok) {
+                setVoucher(''); 
+                window.location.reload();
+            } else {
+                alert(`Failed to apply voucher: ${result.message}`);
+            }
+        } catch (error) {
+            console.error('Error applying voucher:', error);
+            alert('An error occurred while applying the voucher.');
+        }
+    };
+    
+
+    const handleDeleteReservation = async (reservationId) => {
+        if (window.confirm('Are you sure you want to delete this reservation?')) {
+            try {
+                const token = await getAccessTokenSilently(); 
+    
+                const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/deleteReservation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ _id: reservationId }), 
+                });
+    
+                if (response.ok) {
+                    setReservations(prevReservations =>
+                        prevReservations.filter(reservation => reservation._id !== reservationId)
+                    );
+                    alert('Reservation deleted successfully');
+                } else {
+                    const errorData = await response.json();
+                    console.error('Error deleting reservation:', errorData.message);
+                    alert('Failed to delete the reservation. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error deleting reservation:', error.message);
+                alert('Failed to delete the reservation. Please try again.');
+            }
+        }
+    };
+    
     return (
         <div className="profile-container">
-            <button className="back-button" onClick={handleBack}>Back</button>
             <h1 className="profile-title">User Profile</h1>
             {isAuthenticated ? (
                 <>
@@ -82,9 +195,39 @@ const Profile = () => {
                         <p><strong>Email:</strong> {user?.email || "guest@example.com"}</p>
                         <h2>Credits: 
                             <span className="prominent-credits">
-                                {credits !== undefined ? `$${credits.toFixed(2)}` : 'Loading...'}
+                                {credits !== undefined ? `R${credits.toFixed(2)}` : 'Loading...'}
                             </span>
                         </h2>
+                        <div className="voucher-section">
+                            <input
+                                type="text"
+                                value={voucher}
+                                onChange={handleVoucherChange}
+                                placeholder="Enter voucher code"
+                            />
+                            <button className="button" onClick={handleVoucherSubmit}>Apply Voucher</button>
+                        </div>
+                    </div>
+                    <div className="reservations-section">
+                    <h2>Reservations</h2>
+                    <ul>
+                        {reservations.map((reservation) => {
+                        // Format the date and time
+                        const formattedDate = new Date(reservation.date).toLocaleDateString();
+                        const formattedTime = reservation.time || new Date(reservation.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                        return (
+                            <li key={reservation._id} className="reservation-card">
+                            <div><strong>Date:</strong> {formattedDate}</div>
+                            <div><strong>Time:</strong> {formattedTime}</div>
+                            <div><strong>Restaurant:</strong> {reservation.restaurant}</div>
+                            <div><strong>Number Of Guests:</strong> {reservation.numberOfGuests}</div>
+                            <div><strong>Special Request:</strong> {reservation.specialRequest}</div>
+                            <button className="button" onClick={() => handleDeleteReservation(reservation._id)}>Delete Reservation</button>
+                            </li>
+                        );
+                        })}
+                    </ul>
                     </div>
                     <div className="order-history">
                         <h2>Orders</h2>
@@ -92,10 +235,17 @@ const Profile = () => {
                             {orders.map(order => (
                                 <li key={order._id} className="order-card">
                                     <div><strong>Date:</strong> {new Date(order.date).toLocaleDateString()}</div>
-                                    <div><strong>Total:</strong> ${order.total.toFixed(2)}</div>
+                                    <div><strong>Total:</strong> R{order.total.toFixed(2)}</div>
                                     <div><strong>Restaurant:</strong> {order.restaurant}</div>
                                     <div><strong>Status:</strong> {order.status}</div>
-                                    <button onClick={() => trackOrder(order._id)}>Track Order</button>
+                                    {order.status !== "completed" && (
+                                    <button className="button"
+                                        onClick={() => completeOrder(order.orderID)} 
+                                        disabled={order.status !== "ready for collection"} 
+                                    >
+                                        {order.status === "ready for collection" ? "Collected" : "Not Ready"}
+                                    </button>
+                                    )}
                                 </li>
                             ))}
                         </ul>

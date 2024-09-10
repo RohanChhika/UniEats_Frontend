@@ -47,13 +47,9 @@ function ReviewForm() {
         setComment('');
     };
 
-    const handleBack = () => {
-        window.history.back();
-    };
 
     return (
         <div className='review'>
-            <button className="back" onClick={handleBack}>Back</button>
             <h2 className='ReviewHeading'>Leave a Review for {decodedName}</h2>
             <form onSubmit={handleSubmit}>
                 <div>

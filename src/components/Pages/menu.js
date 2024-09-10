@@ -8,6 +8,7 @@ const MenuPage = () => {
   const { name } = useParams();
   const decodedName = decodeURIComponent(name);
   const navigate = useNavigate();
+  
 
 
   // const mockMenuItems = [
@@ -46,6 +47,7 @@ const MenuPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const { getAccessTokenSilently,user} = useAuth0();
+  const [reviews, setReviews] = useState([]);
   
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -66,8 +68,33 @@ const MenuPage = () => {
       }
     };
     console.log("useE done")
+
+    const fetchReviews = async () => {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await fetch(`https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewReviews`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ restaurant: decodedName })
+        });
+        const reviewData = await response.json();
+        if (response.ok) {
+          setReviews(reviewData);
+          console.log(reviewData);
+        } else {
+          throw new Error('Failed to fetch reviews');
+        }
+      } catch (error) {
+        console.error('Error fetching reviews:', error.message);
+      }
+    };
+
     fetchMenuItems();
-  }, [name,getAccessTokenSilently]);
+    fetchReviews();
+  }, [name, decodedName, getAccessTokenSilently]);
 
   const handleFilterChange = (filter, isChecked) => {
     if (isChecked) {
@@ -107,7 +134,8 @@ const MenuPage = () => {
           items: cartItems.map(item => item.name),
           restaurant: decodedName, // Assuming you have this fixed or derived from somewhere
           userID: user?.sub, // Change this to user email but field name must still stay userID
-          total: totalPrice // Example calculation
+          total: totalPrice, // Example calculation
+          email: user.email
       };
 
       try {
@@ -138,15 +166,12 @@ const MenuPage = () => {
   }
 };
 
-const handleBack = () => {
-  window.history.back();
-};
+
 
 
 
   return (
     <div className="menu-page-container">
-      <button className="menu-back" onClick={handleBack}>Back</button>
       <div className="menu-items">
         <h2 className="Heading">Menu for {name}</h2>
         
@@ -165,11 +190,25 @@ const handleBack = () => {
             <p>{item.description}</p>
             <p>Ingredients: {item.ingredients.join(', ')}</p>
             <p>Quantity: {item.quantity}</p>
-            <p>Price: ${item.price.toFixed(2)}</p>
+            <p>Price: R{item.price.toFixed(2)}</p>
             <button className="button" onClick={() => handleAddToCart(item)}>Add to Cart</button>
           </div>
         ))}
       </div>
+      <div className="reviews-section">
+  <h3>Reviews</h3>
+  {reviews.length > 0 ? (
+    <ul>
+      {reviews.map((review, index) => (
+        <li key={index}>
+          {review.comment} - Rating: {review.rating}/5
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No reviews yet</p>
+  )}
+</div>
       <Link to={`/review/${encodeURIComponent(decodedName)}`}>
             <button className="button">Leave Review</button>
         </Link>
@@ -184,12 +223,12 @@ const handleBack = () => {
             <ul>
               {cartItems.map((item, index) => (
                 <li key={index}>
-                  {item.name} - ${item.price.toFixed(2)}
+                  {item.name} - R{item.price.toFixed(2)}
                   <button className="button" onClick={() => handleRemoveFromCart(index)}>Remove</button>
                 </li>
               ))}
             </ul>
-            <h4>Total: ${totalPrice.toFixed(2)}</h4>
+            <h4>Total: R{totalPrice.toFixed(2)}</h4>
             <button className="button" onClick={handleClearCart}>Clear Cart</button>
             <button className="button" onClick={handleCheckout}>Checkout</button>  
           </>

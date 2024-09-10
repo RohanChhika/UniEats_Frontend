@@ -67,14 +67,11 @@ const ReservationPage = () => {
         }
     };
 
-    const handleBack = () => {
-        window.history.back();
-    };
+
 
     return (
         
         <div className='reservation-page'>
-            <button className="back" onClick={handleBack}>Back</button>
             <h1>Make a Reservation at {decodedName}</h1>
             <form onSubmit={handleSubmit}>
                 <div>
