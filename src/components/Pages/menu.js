@@ -106,7 +106,7 @@ const MenuPage = () => {
           time: new Date().toTimeString().split(' ')[0], // Current time in HH:mm:ss format
           items: cartItems.map(item => item.name),
           restaurant: decodedName, // Assuming you have this fixed or derived from somewhere
-          userID: user?.sub, // Auth0 user ID
+          userID: user?.sub, // Change this to user email but field name must still stay userID
           total: totalPrice // Example calculation
       };
 
