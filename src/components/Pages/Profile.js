@@ -9,7 +9,6 @@ const Profile = () => {
 
     useEffect(() => {
         const fetchOrders = async () => {
-            const token = await getAccessTokenSilently();
             if (isAuthenticated && user) {
                 try {
                     const token = await getAccessTokenSilently();
