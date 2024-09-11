@@ -254,7 +254,7 @@ const Profile = () => {
                     </div>
                 </>
             ) : (
-                <p>Please log in to view your profile.</p>
+                <p>Loading...</p>
             )}
         </div>
     );
