@@ -10,6 +10,7 @@ const Profile = () => {
     const [credits, setCredits] = useState(120); // Mock credits
     const [voucher, setVoucher] = useState('');
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);  // Loading state added
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -33,6 +34,8 @@ const Profile = () => {
                     }
                 } catch (error) {
                     console.error('Error fetching orders:', error);
+                }finally{
+                    setLoading(false); // Set loading to false after data fetch
                 }
             }
         };
@@ -87,6 +90,8 @@ const Profile = () => {
                 }
             }
         };
+
+        setLoading(true); // Set loading to true before fetching data
         fetchReservations();
         fetchUser();
         fetchOrders();
@@ -188,6 +193,11 @@ const Profile = () => {
         }
     };
     
+    // Render loading spinner or loading text when loading is true
+    if (loading) {
+        return <div>Loading...</div>; // Or you can use a spinner component here
+    }
+
     return (
         <div className="profile-container">
             <h1 className="profile-title">User Profile</h1>
@@ -254,9 +264,9 @@ const Profile = () => {
                         </ul>
                     </div>
                 </>
-            ) : (
+             ) : (
                 <p>Loading...</p>
-            )}
+             )}
         </div>
     );
 };
