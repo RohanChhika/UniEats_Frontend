@@ -144,8 +144,9 @@ const Profile = () => {
             const result = await response.json();
     
             if (response.ok) {
-                setVoucher(''); 
                 navigate(0);
+                setVoucher(''); 
+                
             } else {
                 alert(`Failed to apply voucher: ${result.message}`);
             }
