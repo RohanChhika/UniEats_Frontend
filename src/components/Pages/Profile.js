@@ -10,7 +10,6 @@ const Profile = () => {
     const [credits, setCredits] = useState(120); // Mock credits
     const [voucher, setVoucher] = useState('');
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);  // Loading state added
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -34,8 +33,6 @@ const Profile = () => {
                     }
                 } catch (error) {
                     console.error('Error fetching orders:', error);
-                }finally{
-                    setLoading(false); // Set loading to false after data fetch
                 }
             }
         };
@@ -90,8 +87,6 @@ const Profile = () => {
                 }
             }
         };
-
-        setLoading(true); // Set loading to true before fetching data
         fetchReservations();
         fetchUser();
         fetchOrders();
@@ -112,9 +107,7 @@ const Profile = () => {
             const result = await response.json();
     
             if (response.ok) {
-                setOrders(prevOrders => prevOrders.map(order =>
-                    order.orderID === orderId ? { ...order, status: 'completed' } : order
-                ));
+                navigate(0);
             } else {
                 alert(`Failed to complete order: ${result.message}`);
             }
@@ -152,8 +145,6 @@ const Profile = () => {
     
             if (response.ok) {
                 setVoucher(''); 
-                setCredits(result.credits);
-                //await fetchUser();
                 navigate(0);
             } else {
                 alert(`Failed to apply voucher: ${result.message}`);
@@ -196,84 +187,77 @@ const Profile = () => {
         }
     };
     
-    // Render loading spinner or loading text when loading is true
-    if (loading) {
-        return <div>Loading...</div>; // Or you can use a spinner component here
-    }
-if (!loading){ return (
-    <div className="profile-container">
-        <h1 className="profile-title">User Profile</h1>
-        {isAuthenticated ? (
-            <>
-                <div className="profile-card">
-                    <p><strong>Name:</strong> {user?.nickname || "Guest"}</p>
-                    <p><strong>Email:</strong> {user?.email || "guest@example.com"}</p>
-                    <h2>Credits: 
-                        <span className="prominent-credits">
-                            {credits !== undefined ? `R${credits.toFixed(2)}` : 'Loading...'}
-                        </span>
-                    </h2>
-                    <div className="voucher-section">
-                        <input
-                            type="text"
-                            value={voucher}
-                            onChange={handleVoucherChange}
-                            placeholder="Enter voucher code"
-                        />
-                        <button className="button" onClick={handleVoucherSubmit}>Apply Voucher</button>
+    return (
+        <div className="profile-container">
+            <h1 className="profile-title">User Profile</h1>
+            {isAuthenticated ? (
+                <>
+                    <div className="profile-card">
+                        <p><strong>Name:</strong> {user?.nickname || "Guest"}</p>
+                        <p><strong>Email:</strong> {user?.email || "guest@example.com"}</p>
+                        <h2>Credits: 
+                            <span className="prominent-credits">
+                                {credits !== undefined ? `R${credits.toFixed(2)}` : 'Loading...'}
+                            </span>
+                        </h2>
+                        <div className="voucher-section">
+                            <input
+                                type="text"
+                                value={voucher}
+                                onChange={handleVoucherChange}
+                                placeholder="Enter voucher code"
+                            />
+                            <button className="button" onClick={handleVoucherSubmit}>Apply Voucher</button>
+                        </div>
                     </div>
-                </div>
-                <div className="reservations-section">
-                <h2>Reservations</h2>
-                <ul>
-                    {reservations.map((reservation) => {
-                    // Format the date and time
-                    const formattedDate = new Date(reservation.date).toLocaleDateString();
-                    const formattedTime = reservation.time || new Date(reservation.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    <div className="reservations-section">
+                    <h2>Reservations</h2>
+                    <ul>
+                        {reservations.map((reservation) => {
+                        // Format the date and time
+                        const formattedDate = new Date(reservation.date).toLocaleDateString();
+                        const formattedTime = reservation.time || new Date(reservation.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-                    return (
-                        <li key={reservation._id} className="reservation-card">
-                        <div><strong>Date:</strong> {formattedDate}</div>
-                        <div><strong>Time:</strong> {formattedTime}</div>
-                        <div><strong>Restaurant:</strong> {reservation.restaurant}</div>
-                        <div><strong>Number Of Guests:</strong> {reservation.numberOfGuests}</div>
-                        <div><strong>Special Request:</strong> {reservation.specialRequest}</div>
-                        <button className="button" onClick={() => handleDeleteReservation(reservation._id)}>Delete Reservation</button>
-                        </li>
-                    );
-                    })}
-                </ul>
-                </div>
-                <div className="order-history">
-                    <h2>Orders</h2>
-                    <ul className="order-list">
-                        {orders.map(order => (
-                            <li key={order._id} className="order-card">
-                                <div><strong>Date:</strong> {new Date(order.date).toLocaleDateString()}</div>
-                                <div><strong>Total:</strong> R{order.total.toFixed(2)}</div>
-                                <div><strong>Restaurant:</strong> {order.restaurant}</div>
-                                <div><strong>Status:</strong> {order.status}</div>
-                                {order.status !== "completed" && (
-                                <button className="button"
-                                    onClick={() => completeOrder(order.orderID)} 
-                                    disabled={order.status !== "ready for collection"} 
-                                >
-                                    {order.status === "ready for collection" ? "Collected" : "Not Ready"}
-                                </button>
-                                )}
+                        return (
+                            <li key={reservation._id} className="reservation-card">
+                            <div><strong>Date:</strong> {formattedDate}</div>
+                            <div><strong>Time:</strong> {formattedTime}</div>
+                            <div><strong>Restaurant:</strong> {reservation.restaurant}</div>
+                            <div><strong>Number Of Guests:</strong> {reservation.numberOfGuests}</div>
+                            <div><strong>Special Request:</strong> {reservation.specialRequest}</div>
+                            <button className="button" onClick={() => handleDeleteReservation(reservation._id)}>Delete Reservation</button>
                             </li>
-                        ))}
+                        );
+                        })}
                     </ul>
-                </div>
-            </>
-         ) : (
-            <p>Loading...</p>
-         )}
-    </div>
-);
-
-}
-   
+                    </div>
+                    <div className="order-history">
+                        <h2>Orders</h2>
+                        <ul className="order-list">
+                            {orders.map(order => (
+                                <li key={order._id} className="order-card">
+                                    <div><strong>Date:</strong> {new Date(order.date).toLocaleDateString()}</div>
+                                    <div><strong>Total:</strong> R{order.total.toFixed(2)}</div>
+                                    <div><strong>Restaurant:</strong> {order.restaurant}</div>
+                                    <div><strong>Status:</strong> {order.status}</div>
+                                    {order.status !== "completed" && (
+                                    <button className="button"
+                                        onClick={() => completeOrder(order.orderID)} 
+                                        disabled={order.status !== "ready for collection"} 
+                                    >
+                                        {order.status === "ready for collection" ? "Collected" : "Not Ready"}
+                                    </button>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </>
+            ) : (
+                <p>Loading...</p>
+            )}
+        </div>
+    );
 };
 
 export default Profile;
