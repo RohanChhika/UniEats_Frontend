@@ -112,7 +112,9 @@ const Profile = () => {
             const result = await response.json();
     
             if (response.ok) {
-                navigate(0);
+                setOrders(prevOrders => prevOrders.map(order =>
+                    order.orderID === orderId ? { ...order, status: 'completed' } : order
+                ));
             } else {
                 alert(`Failed to complete order: ${result.message}`);
             }
@@ -151,6 +153,7 @@ const Profile = () => {
             if (response.ok) {
                 setVoucher(''); 
                 setCredits(result.credits);
+                //await fetchUser();
                 navigate(0);
             } else {
                 alert(`Failed to apply voucher: ${result.message}`);
