@@ -10,106 +10,103 @@ const Profile = () => {
     const [voucher, setVoucher] = useState('');
 
     useEffect(() => {
-        const fetchOrders = async () => {
-            if (isAuthenticated && user) {
-                try {
-                    const token = await getAccessTokenSilently();
-                    const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewOrders', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({ userID: user.email }),
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        setOrders(data);
-                    } else {
-                        console.error('Failed to fetch orders');
-                    }
-                } catch (error) {
-                    console.error('Error fetching orders:', error);
-                }
-            }
-        };
-
-        const fetchUser = async () => {
-            if (isAuthenticated && user) {
-                try {
-                    const token = await getAccessTokenSilently();
-                    const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewUser', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({ userID: user.sub }),
-                    });
-
-                    if (response.ok) {
-                        const userInformation = await response.json();
-                        setCredits(userInformation[0].credits);
-                    } else {
-                        console.error('Failed to fetch user');
-                    }
-                } catch (error) {
-                    console.error('Error fetching user:', error);
-                }
-            }
-        };
-
-        const fetchReservations = async () => {
-            if (isAuthenticated && user) {
-                try {
-                    const token = await getAccessTokenSilently();
-                    const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewReservations', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({ userID: user.sub }),
-                    });
-
-                    if (response.ok) {
-                        const reservations = await response.json();
-                        setReservations(reservations);
-                        console.log(reservations);
-                    } else {
-                        console.error('Failed to fetch user');
-                    }
-                } catch (error) {
-                    console.error('Error fetching user:', error);
-                }
-            }
-        };
-        fetchReservations();
-        fetchUser();
-        fetchOrders();
+        if (isAuthenticated && user) {
+            fetchAllData();
+        }
     }, [isAuthenticated, user, getAccessTokenSilently]);
+
+    const fetchAllData = async () => {
+        await Promise.all([fetchOrders(), fetchUser(), fetchReservations()]);
+    };
+
+    const fetchOrders = async () => {
+        try {
+            const token = await getAccessTokenSilently();
+            const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewOrders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ userID: user.email }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setOrders(data);
+            } else {
+                console.error('Failed to fetch orders', data.message);
+            }
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        }
+    };
+
+    const fetchUser = async () => {
+        try {
+            const token = await getAccessTokenSilently();
+            const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ userID: user.sub }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setCredits(data[0].credits);
+            } else {
+                console.error('Failed to fetch user info', data.message);
+            }
+        } catch (error) {
+            console.error('Error fetching user info:', error);
+        }
+    };
+
+    const fetchReservations = async () => {
+        try {
+            const token = await getAccessTokenSilently();
+            const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/viewReservations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ userID: user.sub }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setReservations(data);
+            } else {
+                console.error('Failed to fetch reservations', data.message);
+            }
+        } catch (error) {
+            console.error('Error fetching reservations:', error);
+        }
+    };
 
     const completeOrder = async (orderId) => {
         try {
-            const token = await getAccessTokenSilently(); 
+            const token = await getAccessTokenSilently();
             const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/completeOrder', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, 
+                    'Authorization': `Bearer ${token}`,
                 },
-                body: JSON.stringify({orderID: orderId }), 
+                body: JSON.stringify({ orderID: orderId }),
             });
-    
             const result = await response.json();
-    
             if (response.ok) {
-                alert("Order Sucessfully Completed");
+                alert("Order Successfully Completed");
+                setOrders(prevOrders => prevOrders.map(order =>
+                    order._id === orderId ? { ...order, status: 'completed' } : order
+                ));
             } else {
                 alert(`Failed to complete order: ${result.message}`);
             }
         } catch (error) {
+            console.error('Error completing order:', error);
             alert('An error occurred while completing the order.');
         }
     };
@@ -124,26 +121,24 @@ const Profile = () => {
             alert('Please enter a valid voucher code (OneHundred, TwoHundred, or Fifty).');
             return;
         }
-     
         try {
-            const token = await getAccessTokenSilently(); 
+            const token = await getAccessTokenSilently();
             const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/addCredits', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, 
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    userID: user.sub, 
-                    vouch: voucher 
+                    userID: user.sub,
+                    vouch: voucher
                 }),
             });
-    
             const result = await response.json();
-    
             if (response.ok) {
-                setVoucher(''); 
-                alert("Voucher Sucessfully Added");
+                setVoucher('');
+                alert("Voucher applied successfully. Credits added.");
+                setCredits(prevCredits => prevCredits + result.addedCredits); // Assuming the backend sends the added credits
             } else {
                 alert(`Failed to apply voucher: ${result.message}`);
             }
@@ -152,22 +147,19 @@ const Profile = () => {
             alert('An error occurred while applying the voucher.');
         }
     };
-    
 
     const handleDeleteReservation = async (reservationId) => {
         if (window.confirm('Are you sure you want to delete this reservation?')) {
             try {
-                const token = await getAccessTokenSilently(); 
-    
+                const token = await getAccessTokenSilently();
                 const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/deleteReservation', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`,
                     },
-                    body: JSON.stringify({ _id: reservationId }), 
+                    body: JSON.stringify({ _id: reservationId }),
                 });
-    
                 if (response.ok) {
                     setReservations(prevReservations =>
                         prevReservations.filter(reservation => reservation._id !== reservationId)
@@ -179,12 +171,12 @@ const Profile = () => {
                     alert('Failed to delete the reservation. Please try again.');
                 }
             } catch (error) {
-                console.error('Error deleting reservation:', error.message);
+                console.error('Error deleting reservation:', error);
                 alert('Failed to delete the reservation. Please try again.');
             }
         }
     };
-    
+
     return (
         <div className="profile-container">
             <h1 className="profile-title">User Profile</h1>
