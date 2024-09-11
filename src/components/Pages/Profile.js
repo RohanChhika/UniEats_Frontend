@@ -145,6 +145,7 @@ const Profile = () => {
     
             if (response.ok) {
                 setVoucher(''); 
+                setCredits(result.credits);
                 navigate(0);
             } else {
                 alert(`Failed to apply voucher: ${result.message}`);
