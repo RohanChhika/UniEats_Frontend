@@ -74,7 +74,7 @@ const LandingPage = () => {
         } catch (error) {
           console.error('Error during sign-up:', error);
         }
-      }
+      } 
     };
   console.log("useEffect done")
     // Call the functions

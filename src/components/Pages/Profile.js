@@ -105,7 +105,7 @@ const Profile = () => {
             const result = await response.json();
     
             if (response.ok) {
-                window.location.reload();
+                window.location.reload(true);
             } else {
                 alert(`Failed to complete order: ${result.message}`);
             }
@@ -143,7 +143,7 @@ const Profile = () => {
     
             if (response.ok) {
                 setVoucher(''); 
-                window.location.reload();
+                window.location.reload(true);
             } else {
                 alert(`Failed to apply voucher: ${result.message}`);
             }
