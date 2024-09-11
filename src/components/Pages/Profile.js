@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../../Profile.css';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -8,6 +9,7 @@ const Profile = () => {
     const [reservations, setReservations] = useState([]);
     const [credits, setCredits] = useState(120); // Mock credits
     const [voucher, setVoucher] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -105,10 +107,7 @@ const Profile = () => {
             const result = await response.json();
     
             if (response.ok) {
-                alert("Order Sucessfully Completed");
-                setOrders(prevOrders => prevOrders.map(order =>
-                    order._id === orderId ? { ...order, status: 'completed' } : order
-                ));
+                navigate(0);
             } else {
                 alert(`Failed to complete order: ${result.message}`);
             }
@@ -146,8 +145,7 @@ const Profile = () => {
     
             if (response.ok) {
                 setVoucher(''); 
-                alert("Order Sucessfully Completed");
-                window.location.reload(true);
+                navigate(0);
             } else {
                 alert(`Failed to apply voucher: ${result.message}`);
             }
