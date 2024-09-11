@@ -28,7 +28,6 @@ import { BrowserRouter } from 'react-router-dom';
 // );
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // Temporarily remove StrictMode
   <BrowserRouter>
     <Auth0Provider
       domain="dev-vd2n3gc57jtwv2md.us.auth0.com"

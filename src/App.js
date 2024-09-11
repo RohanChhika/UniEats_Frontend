@@ -29,7 +29,6 @@ function App() {
             <Route path="/review/:name" element ={<ReviewForm/>}/>
             <Route path="/reservation/:name" element ={<ReservationPage/>}/>
             <Route path="/profile" element ={<Profile/>}/>
-            <Route path="*" element={<NotFound />} />
             {/* Add any additional routes here */}
           </Routes>
         </main>
