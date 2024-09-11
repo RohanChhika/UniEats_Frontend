@@ -34,8 +34,10 @@ root.render(
       clientId="V8FJtXTfBrMCtuR1cd9sdyLcRl7rWhIs"
       authorizationParams={{
         redirect_uri: window.location.origin,
-        audience: "http://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/"
+        audience: "http://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/"  // Store tokens in local storage
       }}
+      useRefreshTokens={true}  // Enable refresh tokens
+      cacheLocation="localstorage"
     >
       <App />
     </Auth0Provider>
