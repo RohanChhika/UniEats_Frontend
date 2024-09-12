@@ -413,15 +413,30 @@ input[type="text"] {
   color: #333;
 }
 
-.cart-container {
-  width: 25%;
+.cart-and-reviews {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.reviews-section {
+  background-color: #f7f7f7;
   padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 0;
+}
+.cart-container {
+  width: 90%;
+  max-height: 100%;
+  overflow-y: auto;
   background-color: #f9f9f9;
-  border-left: 1px solid #ddd;
-  position: sticky;
-  top: 20px;
-  height: fit-content;
+  border: 1px solid #ddd;
   border-radius: 5px;
+  position: relative;
 }
 
 .cart-container h3 {
@@ -522,6 +537,22 @@ input[type="text"] {
   transform: scale(1.05);
 }
 
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.button-group a {
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 200px;
+}
+
+.button:hover {
+  background-color: #000000;
+}
 
 /* Review Page */
 .review{
@@ -634,7 +665,6 @@ input[type="text"] {
   background-color: #218838;
 }
 
-/* Styling for the reviews section container */
 .reviews-section {
   margin-top: 20px;
   padding: 20px;
@@ -648,7 +678,6 @@ input[type="text"] {
   font-size: 24px;
 }
 
-/* Styling for the list of reviews */
 .reviews-section ul {
   list-style-type: none;
   padding: 0;
@@ -667,7 +696,6 @@ input[type="text"] {
   margin-top: 0;
 }
 
-/* Styling for the no reviews message */
 .reviews-section p {
   color: #666;
   font-style: italic;
@@ -737,9 +765,14 @@ input[type="text"] {
     flex-direction: column;
     gap: 0;
   }
+  
+  .cart-and-reviews {
+    flex-direction: column;
+    order: -1;
+  }
 
   .menu-items {
-    width: 90%;
+    width: 100%;
   }
 
   .menu-items .Heading {
@@ -750,9 +783,9 @@ input[type="text"] {
     flex-direction: column;
   }
 
-  .cart-container {
+  .cart-container, .reviews-section {
     width: 100%;
-    margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   .review {

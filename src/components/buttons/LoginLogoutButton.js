@@ -8,10 +8,11 @@ const LoginLogoutButton = () => {
   if (isAuthenticated){
     return (
       <>
+      <button className="button" onClick={() => window.history.back()}>Back</button>
+
       <Link to={`/profile`}>
       <button className="button">View my Profile</button> 
        </Link>
-       <button className="button" onClick={() => window.history.back()}>Back</button>
       <button className="button" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}> Log Out</button>
 
       </>

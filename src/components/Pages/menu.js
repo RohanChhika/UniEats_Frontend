@@ -167,15 +167,21 @@ const MenuPage = () => {
 };
 
 
-
-
-
   return (
     <div className="menu-page-container">
+      <div className="button-group">
+        <Link to={`/review/${encodeURIComponent(decodedName)}`}>
+          <button className="button">Leave Review</button>
+        </Link>
+        <Link to={`/reservation/${encodeURIComponent(decodedName)}`}>
+          <button className="button">Book Reservation</button>
+        </Link>
+      </div>
+
       <div className="menu-items">
         <h2 className="Heading">Menu for {name}</h2>
-        
-        <div>
+
+        <div className="filter-group">
           {['Vegan', 'Vegetarian', 'Gluten-Free', 'Halal', 'Kosher'].map(diet => (
             <label key={diet}>
               <input type="checkbox" onChange={e => handleFilterChange(diet, e.target.checked)} />
@@ -183,7 +189,7 @@ const MenuPage = () => {
             </label>
           ))}
         </div>
-        
+      
         {filteredMenuItems.map(item => (
           <div key={item.name} className="menu-item">
             <h3>{item.name}</h3>
@@ -195,50 +201,47 @@ const MenuPage = () => {
           </div>
         ))}
       </div>
-      <div className="reviews-section">
-  <h3>Reviews</h3>
-  {reviews.length > 0 ? (
-    <ul>
-      {reviews.map((review, index) => (
-        <li key={index}>
-          {review.comment} - Rating: {review.rating}/5
-        </li>
-      ))}
-    </ul>
-  ) : (
-    <p>No reviews yet</p>
-  )}
-</div>
-      <Link to={`/review/${encodeURIComponent(decodedName)}`}>
-            <button className="button">Leave Review</button>
-        </Link>
 
-        <Link to={`/reservation/${encodeURIComponent(decodedName)}`}>
-            <button className="button">Book Reservation</button>
-        </Link>
-      <div className="cart-container">
-        <h3>Your Cart</h3>
-        {cartItems.length > 0 ? (
-          <>
+      <div className="cart-and-reviews">
+        <div className="cart-container">
+          <h3>Your Cart</h3>
+          {cartItems.length > 0 ? (
+            <>
+              <ul>
+                {cartItems.map((item, index) => (
+                  <li key={index}>
+                    {item.name} - R{item.price.toFixed(2)}
+                    <button className="button" onClick={() => handleRemoveFromCart(index)}>Remove</button>
+                  </li>
+                ))}
+              </ul>
+              <h4>Total: R{totalPrice.toFixed(2)}</h4>
+              <button className="button" onClick={handleClearCart}>Clear Cart</button>
+              <button className="button" onClick={handleCheckout}>Checkout</button>
+            </>
+          ) : (
+            <p>Your cart is empty</p>
+          )}
+        </div>
+
+        <div className="reviews-section">
+          <h3>Reviews</h3>
+          {reviews.length > 0 ? (
             <ul>
-              {cartItems.map((item, index) => (
+              {reviews.map((review, index) => (
                 <li key={index}>
-                  {item.name} - R{item.price.toFixed(2)}
-                  <button className="button" onClick={() => handleRemoveFromCart(index)}>Remove</button>
+                  {review.comment} - Rating: {review.rating}/5
                 </li>
               ))}
             </ul>
-            <h4>Total: R{totalPrice.toFixed(2)}</h4>
-            <button className="button" onClick={handleClearCart}>Clear Cart</button>
-            <button className="button" onClick={handleCheckout}>Checkout</button>  
-          </>
-        ) : (
-          <p>Your cart is empty</p>
-          
-        )}
+          ) : (
+            <p>No reviews yet</p>
+          )}
+        </div>
       </div>
     </div>
   );
+
 };
 
 export default MenuPage;
