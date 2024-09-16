@@ -173,6 +173,7 @@ const MenuPage = () => {
         <Link to={`/review/${encodeURIComponent(decodedName)}`}>
           <button className="button">Leave Review</button>
         </Link>
+        
         <Link to={`/reservation/${encodeURIComponent(decodedName)}`}>
           <button className="button">Book Reservation</button>
         </Link>
