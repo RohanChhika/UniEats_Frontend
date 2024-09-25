@@ -156,7 +156,7 @@ const MenuPage = () => {
           } else {
               const errorData = await response.json();
               console.error('Error placing order:', errorData.message);
-              alert('Failed to place the order. Please try again.');
+              alert('Failed to place the order. Insufficient Funds.');
           }
       } catch (error) {
           console.error('Network error:', error);
