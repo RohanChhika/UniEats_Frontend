@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import aboutUsImage from '../Images/aboutus.png';
 import burgerback from '../Images/burgerback.png';
 // import LoginLogoutButton from "../buttons/LoginLogoutButton";
 import '../../App.css';
 
 const Welcome = ({ showHeaderFooter = true }) => {
+    const [events, setEvents] = useState([]);
+
+    useEffect(() => {
+        fetch('https://eventsapi3a.azurewebsites.net/api/events')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);  // log the whole response
+                setEvents(data.data);  // set the events to the data array
+                console.log(events);
+            })
+            .catch(error => console.error('Error fetching events:', error));
+    }, []);
     return (
         <main className="home-screen"> 
             {/* {showHeaderFooter && (
@@ -66,8 +83,24 @@ const Welcome = ({ showHeaderFooter = true }) => {
                     </section>
                 </article>
             </section>
-
-                        
+            <section id="events" className="features-section">
+                <h2>Upcoming Events</h2>
+                <article className="features-container">
+                    {events.length > 0 ? (
+                        events.map((event, index) => (
+                            <section key={index} className="feature">
+                                <h3>Event Name: {event.title}</h3>
+                                <p>Date: {event.date}</p>
+                                {/* <p>Restaurant: {event.restaurant}</p> */}
+                                <p>Location: {event.location}</p>
+                                <p>Ticket Price: {event.ticketPrice}</p>
+                            </section>
+                        ))
+                    ) : (
+                        <p>No upcoming events at the moment.</p>
+                    )}
+                </article>
+            </section>           
         </main>
     );
 };
