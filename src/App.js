@@ -36,10 +36,6 @@ function App() {
      {/*footer*/}
       <footer className="App-footer">
         <p>© 2024 UNIEATS. All rights reserved.</p>
-        <aside className="footer-links"> 
-          <a href="#about">About Us</a>
-          <a href=" #features ">Our Services</a>
-        </aside>
       </footer>
     </div>
   );
