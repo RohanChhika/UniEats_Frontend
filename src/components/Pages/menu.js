@@ -126,15 +126,14 @@ const MenuPage = () => {
   };
 
   const handleCheckout = async() => {
-    // Ask the user to confirm the checkout
-    if (window.confirm("Are you sure you want to proceed with checkout?")) {
+    if (window.confirm("Are you sure you want to proceed with this purchase?")) {
       const orderPayload = {
-          date: new Date().toISOString().split('T')[0], // Current date in ISO format
-          time: new Date().toTimeString().split(' ')[0], // Current time in HH:mm:ss format
+          date: new Date().toISOString().split('T')[0], 
+          time: new Date().toTimeString().split(' ')[0], 
           items: cartItems.map(item => item.name),
-          restaurant: decodedName, // Assuming you have this fixed or derived from somewhere
-          userID: user?.sub, // Change this to user email but field name must still stay userID
-          total: totalPrice, // Example calculation
+          restaurant: decodedName, 
+          userID: user?.sub, 
+          total: totalPrice, 
           email: user.email
       };
 

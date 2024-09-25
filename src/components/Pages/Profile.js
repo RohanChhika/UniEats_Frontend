@@ -9,6 +9,7 @@ const Profile = () => {
     const [reservations, setReservations] = useState([]);
     const [credits, setCredits] = useState(120); // Mock credits
     const [voucher, setVoucher] = useState('');
+    const [isUpcoming, setIsUpcoming] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -188,6 +189,12 @@ const Profile = () => {
         }
     };
     
+    const now = new Date();
+    const filteredReservations = reservations.filter(reservation => {
+        const reservationDate = new Date(reservation.date);
+        return isUpcoming ? reservationDate >= now : reservationDate < now;
+    });
+    
     return (
         <div className="profile-container">
             <h1 className="profile-title">User Profile</h1>
@@ -212,25 +219,42 @@ const Profile = () => {
                         </div>
                     </div>
                     <div className="reservations-section">
-                    <h2>Reservations</h2>
-                    <ul>
-                        {reservations.map((reservation) => {
-                        // Format the date and time
-                        const formattedDate = new Date(reservation.date).toLocaleDateString();
-                        const formattedTime = reservation.time || new Date(reservation.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        <h2>Reservations</h2>
+                        <div>
+                            <button 
+                                className={`button ${isUpcoming ? 'active' : ''}`} 
+                                onClick={() => setIsUpcoming(true)}
+                            >
+                                Upcoming Reservations
+                            </button>
+                            <button 
+                                className={`button ${!isUpcoming ? 'active' : ''}`} 
+                                onClick={() => setIsUpcoming(false)}
+                            >
+                                Past Reservations
+                            </button>
+                        </div>
+                        <ul>
+                            {filteredReservations.map((reservation) => {
+                                const formattedDate = new Date(reservation.date).toLocaleDateString();
+                                const formattedTime = reservation.time || new Date(reservation.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-                        return (
-                            <li key={reservation._id} className="reservation-card">
-                            <div><strong>Date:</strong> {formattedDate}</div>
-                            <div><strong>Time:</strong> {formattedTime}</div>
-                            <div><strong>Restaurant:</strong> {reservation.restaurant}</div>
-                            <div><strong>Number Of Guests:</strong> {reservation.numberOfGuests}</div>
-                            <div><strong>Special Request:</strong> {reservation.specialRequest}</div>
-                            <button className="button" onClick={() => handleDeleteReservation(reservation._id)}>Delete Reservation</button>
-                            </li>
-                        );
-                        })}
-                    </ul>
+                                return (
+                                    <li key={reservation._id} className="reservation-card">
+                                        <div><strong>Date:</strong> {formattedDate}</div>
+                                        <div><strong>Time:</strong> {formattedTime}</div>
+                                        <div><strong>Restaurant:</strong> {reservation.restaurant}</div>
+                                        <div><strong>Number Of Guests:</strong> {reservation.numberOfGuests}</div>
+                                        <div><strong>Special Request:</strong> {reservation.specialRequest}</div>
+                                        {isUpcoming && (
+                                            <button className="button" onClick={() => handleDeleteReservation(reservation._id)}>
+                                                Delete Reservation
+                                            </button>
+                                        )}
+                                    </li>
+                                );
+                            })}
+                        </ul>
                     </div>
                     <div className="order-history">
                         <h2>Orders</h2>
