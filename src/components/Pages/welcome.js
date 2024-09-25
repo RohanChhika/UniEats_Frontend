@@ -21,7 +21,7 @@ const Welcome = ({ showHeaderFooter = true }) => {
                 console.log(events);
             })
             .catch(error => console.error('Error fetching events:', error));
-    }, []);
+    }, [events]);
     return (
         <main className="home-screen"> 
             {/* {showHeaderFooter && (
