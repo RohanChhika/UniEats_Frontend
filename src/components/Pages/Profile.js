@@ -28,7 +28,8 @@ const Profile = () => {
 
                     if (response.ok) {
                         const data = await response.json();
-                        setOrders(data);
+                        const sortedOrders = data.sort((a, b) => new Date(b.date) - new Date(a.date));
+                        setOrders(sortedOrders);
                     } else {
                         console.error('Failed to fetch orders');
                     }

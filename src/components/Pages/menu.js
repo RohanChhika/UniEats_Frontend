@@ -48,6 +48,7 @@ const MenuPage = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const { getAccessTokenSilently,user} = useAuth0();
   const [reviews, setReviews] = useState([]);
+  const [deepLinkURL, setDeepLinkURL] = useState('');
   
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -91,10 +92,43 @@ const MenuPage = () => {
         console.error('Error fetching reviews:', error.message);
       }
     };
+    const fetchDeepLinkURL = async () => {
+      let restaurantName;
+
+      if (decodedName === "Zesti Lemons") {
+        restaurantName = "Zesti Lemonz";
+      } else if (decodedName === "Delhi Delicious") {
+        restaurantName = "Delhi Delicous"; 
+      } else if (decodedName === "Vida Cafe") {
+        restaurantName = "Vida e Caffe";
+      } else if (decodedName === "Jimmys Killer Fish & Chips") {
+        restaurantName = "Jimmys Killer Fish and Chips (Matrix)";
+      } else if (decodedName === "Olives & Plates") {
+        restaurantName = "Olives & Plates";
+      } else if (decodedName === "Kara Nicha") {
+        restaurantName = "Kara Nichas (Matrix)";
+      } 
+
+      if (restaurantName) {
+        try {
+          const response = await fetch(`http://ec2-52-40-184-137.us-west-2.compute.amazonaws.com/api/v1/navigation/poi/name/${restaurantName}`);
+          const data = await response.json();
+          if (response.ok) {
+            setDeepLinkURL(data.deepLinkUrl); 
+            console.log(data);
+          } else {
+            throw new Error('Failed to fetch deep link URL');
+          }
+        } catch (error) {
+          console.error('Error fetching deep link URL:', error);
+        }
+      }
+    };
 
     fetchMenuItems();
     fetchReviews();
-  }, [name, decodedName, getAccessTokenSilently]);
+    fetchDeepLinkURL();
+  }, [name,decodedName, getAccessTokenSilently]);
 
   const handleFilterChange = (filter, isChecked) => {
     if (isChecked) {
