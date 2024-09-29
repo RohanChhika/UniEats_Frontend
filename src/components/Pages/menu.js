@@ -212,6 +212,15 @@ const MenuPage = () => {
         </Link>
       </div>
 
+
+        <div className>
+          <h3>Get Directions</h3>
+          <a href={deepLinkURL} target="_blank" rel="noopener noreferrer">
+            Click here for directions to {decodedName}
+          </a>
+        </div>
+      
+
       <div className="menu-items">
         <h2 className="Heading">Menu for {name}</h2>
 
