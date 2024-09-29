@@ -111,7 +111,7 @@ const MenuPage = () => {
 
       if (restaurantName) {
         try {
-          const response = await fetch(`https://ec2-52-40-184-137.us-west-2.compute.amazonaws.com/api/v1/navigation/poi/name/${restaurantName}`);
+          const response = await fetch(`http://ec2-52-40-184-137.us-west-2.compute.amazonaws.com/api/v1/navigation/poi/name/${restaurantName}`);
           const data = await response.json();
           if (response.ok) {
             setDeepLinkURL(data.deepLinkUrl); 

@@ -1,13 +1,15 @@
 {
-    "navigationFallback": {
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/images/*", "/css/*", "/js/*", "/api/*"]
+  },
+  "responseOverrides": {
+    "404": {
       "rewrite": "/index.html",
-      "exclude": ["/images/*", "/css/*", "/js/*", "/api/*"]
-    },
-    "responseOverrides": {
-      "404": {
-        "rewrite": "/index.html",
-        "statusCode": 200
-      }
+      "statusCode": 200
     }
+  },
+  "globalHeaders": {
+    "Content-Security-Policy": "default-src https: http:; script-src https: http:;"
   }
-  
+}
