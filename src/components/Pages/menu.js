@@ -217,22 +217,22 @@ const MenuPage = () => {
         <Link to={`/reservation/${encodeURIComponent(decodedName)}`}>
           <button className="button">Book Reservation</button>
         </Link>
-      </div>
 
+        <div className="get-directions">
+          <h3>Get Directions to {decodedName}:</h3>
+          {deepLinkURL ? (
+            <a href={deepLinkURL} target="_blank" rel="noopener noreferrer">
+            Click here for directions to {decodedName}
+            </a>
+            ) : (
+            <a href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ"} target="_blank" rel="noopener noreferrer">
+            Link currently unavailable but click for a surprise
+            </a>
+          )}
+          <div className="mobile-separator"></div>
+        </div>
 
-      <div>
-  <h3>Get Directions</h3>
-  {deepLinkURL ? (
-    <a href={deepLinkURL} target="_blank" rel="noopener noreferrer">
-      Click here for directions to {decodedName}
-    </a>
-  ) : (
-    <a href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ"} target="_blank" rel="noopener noreferrer">
-      Link currently unavailable but click for a suprise
-    </a>
-  )}
-</div>
-      
+      </div>     
 
       <div className="menu-items">
         <h2 className="Heading">Menu for {name}</h2>
