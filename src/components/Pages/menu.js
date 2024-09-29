@@ -115,7 +115,7 @@ const MenuPage = () => {
           const data = await response.json();
           if (response.ok) {
             setDeepLinkURL(data.deepLinkUrl); 
-            console.log(data);
+            console.log(data.deepLinkUrl);
           } else {
             throw new Error('Failed to fetch deep link URL');
           }
@@ -213,12 +213,18 @@ const MenuPage = () => {
       </div>
 
 
-        <div className>
-          <h3>Get Directions</h3>
-          <a href={deepLinkURL} target="_blank" rel="noopener noreferrer">
-            Click here for directions to {decodedName}
-          </a>
-        </div>
+      <div>
+  <h3>Get Directions</h3>
+  {deepLinkURL ? (
+    <a href={deepLinkURL} target="_blank" rel="noopener noreferrer">
+      Click here for directions to {decodedName}
+    </a>
+  ) : (
+    <a href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ"} target="_blank" rel="noopener noreferrer">
+      Link currently unavailable but click for a suprise
+    </a>
+  )}
+</div>
       
 
       <div className="menu-items">
