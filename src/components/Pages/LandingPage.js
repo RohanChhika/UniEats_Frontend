@@ -90,7 +90,7 @@ const LandingPage = () => {
     restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   return (
-    <div>
+    <div className="landing-page">
       <section>
         <section>
           <section className="center-container">

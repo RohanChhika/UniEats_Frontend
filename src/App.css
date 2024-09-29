@@ -21,12 +21,14 @@ body, html {
   position: fixed;
   top: 0;
   z-index: 1000;
+  
 }
 
 .App-header img {
   position: absolute;
   left: 20px;
   height: 80px;
+  
 }
 
 .login-container {
@@ -109,7 +111,7 @@ body, html {
   justify-content: space-between;
   align-items: center;
   padding: 0.2rem 2rem;
-  background-color: #fff;
+  background-color: #ffffff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
@@ -243,6 +245,10 @@ body, html {
 }
 
 /* Restaurant Listings */
+.landing-page {
+  background: linear-gradient(135deg, #ffffff, #0397b1);
+}
+
 .restaurant-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -253,7 +259,7 @@ body, html {
 }
 
 .restaurant-card {
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 0.5rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -263,8 +269,10 @@ body, html {
 
 .restaurant-card img {
   width: 100%;
-  height: auto;
-  object-fit: cover;
+  max-width: 300px;
+  height: 200px; 
+  object-fit: cover; 
+  border-radius: 10px;
 }
 
 .restaurant-card h3 {
@@ -295,7 +303,7 @@ input[type="text"] {
   width: 100%;
   max-width: 400px;
   box-sizing: border-box;
-  border-radius: 5px;
+  border-radius: 25px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
 }
@@ -335,11 +343,13 @@ input[type="text"] {
   justify-content: space-between;
   align-items: flex-start;
   padding: 20px;
+
 }
 
 .menu-items {
   width: 70%;
   padding-right: 20px;
+  
 }
 
 .cart-container {
@@ -360,7 +370,8 @@ input[type="text"] {
   align-items: flex-start;
   padding: 20px;
   gap: 20px;
-  background-color: #ffffff;
+  background: linear-gradient(135deg, #ffffff, #0397b1);
+
 }
 
 .menu-items {
@@ -376,7 +387,7 @@ input[type="text"] {
 }
 
 .menu-item {
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   padding: 15px;
   border-radius: 5px;
@@ -520,8 +531,8 @@ input[type="text"] {
 }
 
 .menu-back {
-  background-color: #2f4c5a; /* Blue background */
-  color: white; /* White text */
+  background-color: #2f4c5a;
+  color: white;
   border: none;
   border-radius: 5px;
   padding: 5px 20px;
@@ -762,13 +773,28 @@ input[type="text"] {
   }
 
   .menu-page-container {
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 0;
+  }
+
+  .button-group {
+    order: 1;
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center; 
+  }
+
+  .button-group a {
+    display: inline-block;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 200px;
   }
   
   .cart-and-reviews {
     flex-direction: column;
     order: -1;
+    margin-top: 20px;
   }
 
   .menu-items {
