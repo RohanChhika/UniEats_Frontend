@@ -111,11 +111,17 @@ const MenuPage = () => {
 
       if (restaurantName) {
         try {
-          const response = await fetch(`https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/api/proxy/${encodeURIComponent(restaurantName)}`);
+          const response = await fetch(`https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/api/proxy?restaurant=${encodeURIComponent(restaurantName)}`, {
+            method: 'GET',
+            headers: {  // Include the access token in the Authorization header
+              'Content-Type': 'application/json'         // Optionally set Content-Type
+            }
+          });
+      
           const data = await response.json();
           if (response.ok) {
             setDeepLinkURL(data.deepLinkUrl); 
-            console.log(data.deepLinkUrl);
+            console.log(data);
           } else {
             throw new Error('Failed to fetch deep link URL');
           }
@@ -123,6 +129,7 @@ const MenuPage = () => {
           console.error('Error fetching deep link URL:', error);
         }
       }
+      
     };
 
     fetchMenuItems();
