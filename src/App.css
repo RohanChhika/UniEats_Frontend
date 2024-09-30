@@ -145,6 +145,9 @@ body, html {
   justify-content: center;
   text-align: center;
   padding: 0 2rem;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
  
 }
 
@@ -736,16 +739,32 @@ input[type="text"] {
   font-style: italic;
 }
 
+.about-us-section, .features-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-in-out;
+}
+
+.about-us-section.visible, .features-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
 
 
 @media (max-width: 900px) {
   /* Responsive styling for smaller screens */
   .about-us-section, .features-section {
     padding: 2rem 1rem;
+
+  }
+  .about-us-section h1{
+    font-size: 1.5rem;
   }
 
   .hero-content h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   .hero-content p {
@@ -753,13 +772,15 @@ input[type="text"] {
   }
   
   .about-us-article{
-    color: white;
+    color: black;
   }
  
   .image-container {
       margin-right: 0;
       margin-bottom: 20px;
   }
+
+  
 
   .features-container {
       flex-direction: column;

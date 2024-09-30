@@ -4,8 +4,29 @@ import burgerback from '../Images/burgerback.png';
 // import LoginLogoutButton from "../buttons/LoginLogoutButton";
 import '../../App.css';
 
+
 const Welcome = ({ showHeaderFooter = true }) => {
+    
     const [events, setEvents] = useState([]);
+    
+
+    useEffect(() => {
+        const sections = document.querySelectorAll(".about-us-section, .features-section");
+    
+        const handleScroll = () => {
+            sections.forEach((section) => {
+                const sectionTop = section.getBoundingClientRect().top;
+                if (sectionTop < window.innerHeight - 100) {
+                    section.classList.add("visible");
+                }
+            });
+        };
+    
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+    
+    
 
     useEffect(() => {
         fetch('https://eventsapi3a.azurewebsites.net/api/events')
