@@ -763,6 +763,9 @@ input[type="text"] {
     font-size: 1.5rem;
   }
 
+  .hero-section{
+    background-attachment: scroll;
+  }
   .hero-content h1 {
     font-size: 1.5rem;
   }
