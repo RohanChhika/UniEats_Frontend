@@ -29,7 +29,7 @@ const Welcome = ({ showHeaderFooter = true }) => {
     
 
     useEffect(() => {
-        fetch('https://eventsapi3a.azurewebsites.net/api/events')
+        fetch('https://eventsapi3a.azurewebsites.net/api/events/upcoming-events')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
