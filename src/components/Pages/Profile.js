@@ -244,13 +244,13 @@ const Profile = () => {
                         <h2>Reservations</h2>
                         <div className="reservation-tabs">
                             <button 
-                                className={`button ${isUpcoming ? 'active-tab' : ''}`} 
+                                className={`button ${isUpcoming ? 'active' : ''}`} 
                                 onClick={() => setIsUpcoming(true)}
                             >
                                 Upcoming Reservations
                             </button>
                             <button 
-                                className={`button ${!isUpcoming ? 'active-tab' : ''}`} 
+                                className={`button ${!isUpcoming ? 'active' : ''}`} 
                                 onClick={() => setIsUpcoming(false)}
                             >
                                 Past Reservations
@@ -262,7 +262,7 @@ const Profile = () => {
                                 const formattedTime = reservation.time || new Date(reservation.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
                                 return (
-                                    <ul key={reservation._id} className="reservation-card">
+                                    <li key={reservation._id} className="reservation-card">
                                         <div><strong>Date:</strong> {formattedDate}</div>
                                         <div><strong>Time:</strong> {formattedTime}</div>
                                         <div><strong>Restaurant:</strong> {reservation.restaurant}</div>
@@ -273,7 +273,7 @@ const Profile = () => {
                                                 Delete Reservation
                                             </button>
                                         )}
-                                    </ul>
+                                    </li>
                                 );
                             })}
                         </ul>
