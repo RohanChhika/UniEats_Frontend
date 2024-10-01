@@ -116,9 +116,24 @@ const MenuPage = () => {
   );
 
   const handleAddToCart = (item) => {
-    setCartItems([...cartItems, item]);
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find(cartItem => cartItem.name === item.name);
+  
+      if (existingItem) {
+        return prevItems.map(cartItem =>
+          cartItem.name === item.name
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      } 
+      else {
+        return [...prevItems, { ...item, quantity: 1 }];
+      }
+    });
+  
     setTotalPrice(totalPrice + item.price);
   };
+  
 
   const handleRemoveFromCart = (index) => {
     const itemToRemove = cartItems[index];
@@ -232,7 +247,7 @@ const MenuPage = () => {
               <ul>
                 {cartItems.map((item, index) => (
                   <li key={index}>
-                    {item.name} - R{item.price.toFixed(2)}
+                    {item.name} (x{item.quantity}) - R{(item.price * item.quantity).toFixed(2)}
                     <button className="button" onClick={() => handleRemoveFromCart(index)}>Remove</button>
                   </li>
                 ))}

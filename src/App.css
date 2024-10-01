@@ -948,9 +948,6 @@ input[type="text"] {
   margin-bottom: 15px;
 }
 
-
-
-
   /* Profile Page Styles */
 .profile-container {
   max-width: 800px;
@@ -979,31 +976,6 @@ input[type="text"] {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.order-history {
-  margin-top: 30px;
-}
-
-.order-list {
-  list-style: none;
-  padding: 0;
-}
-
-.order-card {
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.order-card strong {
-  color: #333;
-}
-
-.profile-card p, .order-card div {
-  margin: 8px 0;
 }
 
 @media (max-width: 600px) {
