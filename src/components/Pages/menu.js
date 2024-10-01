@@ -8,40 +8,6 @@ const MenuPage = () => {
   const { name } = useParams();
   const decodedName = decodeURIComponent(name);
   const navigate = useNavigate();
-  
-
-
-  // const mockMenuItems = [
-  //   {
-  //     id: 1,
-  //     name: "Grilled Salmon",
-  //     description: "Freshly grilled salmon with a touch of lemon",
-  //     ingredients: ["Salmon", "Lemon", "Salt"],
-  //     quantity: "1 piece",
-  //     price: 15.99,
-  //     dietary: ["Gluten-Free", "Pescatarian"]
-
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Caesar Salad",
-  //     description: "Classic Caesar salad with romaine lettuce and parmesan",
-  //     ingredients: ["Lettuce", "Parmesan", "Croutons"],
-  //     quantity: "1 bowl",
-  //     price: 12.00,
-  //     dietary: ["Vegetarian"]
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Vegan Burger",
-  //     description: "Plant-based burger with avocado and sprouts",
-  //     ingredients: ["Plant Patty", "Avocado", "Sprouts", "Bun"],
-  //     quantity: "1 burger",
-  //     price: 13.00,
-  //     dietary: ["Vegan", "Kosher"]
-  //   }
-  // ];
-
   const [menuItems, setMenuItems] = useState([]);
   const [filters, setFilters] = useState([]);
   const [cartItems, setCartItems] = useState([]);
