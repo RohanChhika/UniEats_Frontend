@@ -8,10 +8,19 @@ const Profile = () => {
     const [orders, setOrders] = useState([]);
     const [reservations, setReservations] = useState([]);
     const [credits, setCredits] = useState(120); // Mock credits
-    const [voucher, setVoucher] = useState('');
+    const [amount, setAmount] = useState(0);
     const [isUpcoming, setIsUpcoming] = useState(true);
     const navigate = useNavigate();
-
+    const [yoco, setYoco] = useState(null);
+    useEffect(() => {
+        // Initialize Yoco SDK
+        if (window.YocoSDK) {
+            setYoco(new window.YocoSDK({
+                publicKey: 'pk_test_e0ce18bfqWmALEL390b4'
+            }));
+        }
+        // ... rest of your existing useEffect code ...
+    }, [isAuthenticated, user, getAccessTokenSilently]);
     useEffect(() => {
         const fetchOrders = async () => {
             if (isAuthenticated && user) {
@@ -118,45 +127,57 @@ const Profile = () => {
         }
     };
 
-    const handleVoucherChange = (event) => {
-        setVoucher(event.target.value);
+    const handleAmountChange = (event) => {
+        setAmount(event.target.value);
     };
 
-    const handleVoucherSubmit = async () => {
-        const validVouchers = ["OneHundred", "TwoHundred", "Fifty"];
-        if (!validVouchers.includes(voucher)) {
-            alert('Please enter a valid voucher code (OneHundred, TwoHundred, or Fifty).');
+    const handleYocoPayment = () => {
+        if (!amount || isNaN(amount) || amount <= 0) {
+            alert('Please enter a valid amount');
             return;
         }
-     
-        try {
-            const token = await getAccessTokenSilently(); 
-            const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/addCredits', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, 
-                },
-                body: JSON.stringify({
-                    userID: user.sub, 
-                    vouch: voucher 
-                }),
-            });
-    
-            const result = await response.json();
-    
-            if (response.ok) {
-                navigate(0);
-                setVoucher(''); 
-                
-            } else {
-                alert(`Failed to apply voucher: ${result.message}`);
+
+        yoco.showPopup({
+            amountInCents: Math.round(amount * 100),
+            currency: 'ZAR',
+            name: 'Purchase Credits',
+            description: `Purchase ${amount} credits`,
+            callback: async function (result) {
+                if (result.error) {
+                    alert("Error: " + result.error.message);
+                } else {
+                    try {
+                        const token = await getAccessTokenSilently();
+                        const response = await fetch('https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/purchaseCredits', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({
+                                userID: user.sub,
+                                amount: parseFloat(amount),
+                                yocoToken: result.id
+                            }),
+                        });
+
+                        if (response.ok) {
+                            const data = await response.json();
+                            setCredits(prevCredits => prevCredits + parseFloat(amount));
+                            alert('Credits purchased successfully!');
+                            setAmount('');
+                        } else {
+                            alert('Failed to purchase credits. Please try again.');
+                        }
+                    } catch (error) {
+                        console.error('Error purchasing credits:', error);
+                        alert('An error occurred while purchasing credits.');
+                    }
+                }
             }
-        } catch (error) {
-            console.error('Error applying voucher:', error);
-            alert('An error occurred while applying the voucher.');
-        }
+        });
     };
+
     
 
     const handleDeleteReservation = async (reservationId) => {
@@ -209,14 +230,14 @@ const Profile = () => {
                                 {credits !== undefined ? `R${credits.toFixed(2)}` : 'Loading...'}
                             </span>
                         </h2>
-                        <div className="voucher-section">
+                        <div className="credit-purchase-section">
                             <input
-                                type="text"
-                                value={voucher}
-                                onChange={handleVoucherChange}
-                                placeholder="Enter voucher code"
+                                type="number"
+                                value={amount ||''}
+                                onChange={handleAmountChange}
+                                placeholder="Enter amount"
                             />
-                            <button className="button" onClick={handleVoucherSubmit}>Apply Voucher</button>
+                            <button className="button" onClick={handleYocoPayment}>Purchase Credits</button>
                         </div>
                     </div>
                     <div className="reservations-section">
