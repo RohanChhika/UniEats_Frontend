@@ -162,7 +162,7 @@ const Profile = () => {
                         });
 
                         if (response.ok) {
-                            const data = await response.json();
+                            // const data = await response.json();
                             setCredits(prevCredits => prevCredits + parseFloat(amount));
                             alert('Credits purchased successfully!');
                             setAmount('');
