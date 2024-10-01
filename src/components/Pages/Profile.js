@@ -262,7 +262,7 @@ const Profile = () => {
                                 const formattedTime = reservation.time || new Date(reservation.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
                                 return (
-                                    <li key={reservation._id} className="reservation-card">
+                                    <ul key={reservation._id} className="reservation-card">
                                         <div><strong>Date:</strong> {formattedDate}</div>
                                         <div><strong>Time:</strong> {formattedTime}</div>
                                         <div><strong>Restaurant:</strong> {reservation.restaurant}</div>
@@ -273,7 +273,7 @@ const Profile = () => {
                                                 Delete Reservation
                                             </button>
                                         )}
-                                    </li>
+                                    </ul>
                                 );
                             })}
                         </ul>
