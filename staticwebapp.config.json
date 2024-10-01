@@ -10,6 +10,6 @@
     }
   },
   "globalHeaders": {
-    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:; style-src 'self' 'unsafe-inline' https: http:; img-src 'self' data: https: http:; connect-src 'self' https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net https://online.yoco.com https://js.yoco.com; font-src 'self' data: https:; frame-src 'self' https://online.yoco.com;"
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:; style-src 'self' 'unsafe-inline' https: http:; img-src 'self' data: https: http:; connect-src 'self' https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net https://online.yoco.com https://yoco-pos-prod.firebaseio.com https://eventsapi3a.azurewebsites.net; frame-src 'self' https://online.yoco.com; font-src 'self' data: https:;"
   }
 }
