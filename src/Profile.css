@@ -107,13 +107,13 @@
     background-color: #ddd;
 }
 
-.active-tab {
+.active {
     background-color: #0075fa;
     color: white;
     font-weight: bold;
 }
 
-.active-tab:hover {
+.active:hover {
     background-color: #005bb5;
 }
 
