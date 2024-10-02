@@ -15,6 +15,7 @@ const MenuPage = () => {
   const { getAccessTokenSilently,user} = useAuth0();
   const [reviews, setReviews] = useState([]);
   const [deepLinkURL, setDeepLinkURL] = useState('');
+  const [googleMapsSearchURL, setGoogleMapsSearchURL] = useState('');
   
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -60,19 +61,32 @@ const MenuPage = () => {
     };
     const fetchDeepLinkURL = async () => {
       let restaurantName;
-
+      let lat ;
+      let long ;
       if (decodedName === "Zesti Lemons") {
         restaurantName = "Zesti Lemonz";
+        lat = -26.189650935694054;
+        long = 28.027783610790753;
       } else if (decodedName === "Delhi Delicious") {
         restaurantName = "Delhi Delicous"; 
+        lat = -26.189919212210018;
+        long = 28.030728630878574;
       } else if (decodedName === "Vida Cafe") {
         restaurantName = "Vida e Caffe";
-      } else if (decodedName === "Jimmys Killer Fish & Chips") {
+        lat = -26.19118586103877;
+        long = 28.02816667030184;
+      } else if (decodedName === "Jimmy's Killer Fish & Chips") {
         restaurantName = "Jimmys Killer Fish and Chips (Matrix)";
+        lat = -26.189510350743006;
+        long = 28.030667960631064;
       } else if (decodedName === "Olives & Plates") {
         restaurantName = "Olives & Plates";
-      } else if (decodedName === "Kara Nicha") {
+         lat = -26.185527505729922;
+         long = 28.02582296605567;
+      } else if (decodedName === "Kara Nichas") {
         restaurantName = "Kara Nichas (Matrix)";
+        lat = -26.189753684571233;
+        long = 28.03068543860127;
       } 
 
       if (restaurantName) {
@@ -87,6 +101,8 @@ const MenuPage = () => {
           const data = await response.json();
           if (response.ok) {
             setDeepLinkURL(data.deepLinkUrl); 
+            const googleMapsURL = `https://www.google.com/maps/search/?api=1&query=${lat},${long}`;
+            setGoogleMapsSearchURL(googleMapsURL)
             console.log(data);
           } else {
             throw new Error('Failed to fetch deep link URL');
@@ -206,7 +222,7 @@ const MenuPage = () => {
             Click here for directions to {decodedName}
             </a>
             ) : (
-            <a href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ"} target="_blank" rel="noopener noreferrer">
+            <a href={googleMapsSearchURL} target="_blank" rel="noopener noreferrer">
             Link currently unavailable but click for a surprise
             </a>
           )}
