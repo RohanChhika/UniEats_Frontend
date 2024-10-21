@@ -91,7 +91,7 @@ const MenuPage = () => {
 
       if (restaurantName) {
         try {
-          const response = await fetch(`https://sdpbackend-c3akgye9ceauethh.southafricanorth-01.azurewebsites.net/api/proxy?restaurant=${encodeURIComponent(restaurantName)}`, {
+          const response = await fetch(`https://gateway.tandemworkflow.com/api/v1/navigation/poi/name/${(restaurantName)}`, {
             method: 'GET',
             headers: {  // Include the access token in the Authorization header
               'Content-Type': 'application/json'         // Optionally set Content-Type
