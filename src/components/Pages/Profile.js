@@ -12,6 +12,8 @@ const Profile = () => {
     const [isUpcoming, setIsUpcoming] = useState(true);
     const navigate = useNavigate();
     const [yoco, setYoco] = useState(null);
+    const [activeOrderTab, setActiveOrderTab] = useState('ongoing'); // Initialize state for order tabs
+
     useEffect(() => {
         // Initialize Yoco SDK
         if (window.YocoSDK) {
@@ -178,6 +180,10 @@ const Profile = () => {
         });
     };
 
+const handleOrderTabClick= (tab) => setActiveOrderTab(tab);
+const ongoingOrders=orders.filter((order)=>order.status!=='completed');
+const pastOrders = orders.filter((order) => order.status === 'completed');
+
     
 
     const handleDeleteReservation = async (reservationId) => {
@@ -278,27 +284,42 @@ const Profile = () => {
                             })}
                         </ul>
                     </div>
-                    <div className="order-history">
-                        <h2>Orders</h2>
-                        <ul className="order-list">
-                            {orders.map(order => (
-                                <li key={order._id} className="order-card">
-                                    <div><strong>Date:</strong> {new Date(order.date).toLocaleDateString()}</div>
-                                    <div><strong>Total:</strong> R{order.total.toFixed(2)}</div>
-                                    <div><strong>Restaurant:</strong> {order.restaurant}</div>
-                                    <div><strong>Status:</strong> {order.status}</div>
-                                    {order.status !== "completed" && (
-                                    <button className="button"
-                                        onClick={() => completeOrder(order.orderID)} 
-                                        disabled={order.status !== "ready for collection"} 
-                                    >
-                                        {order.status === "ready for collection" ? "Collected" : "Not Ready"}
-                                    </button>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
+              
+                         {/* Order Tabs */}
+                    <div className="order-tabs">
+                        <button
+                            className={`button ${activeOrderTab === 'ongoing' ? 'active' : ''}`}
+                            onClick={() => handleOrderTabClick('ongoing')}
+                        >
+                            Ongoing Orders
+                        </button>
+                        <button
+                            className={`button ${activeOrderTab === 'past' ? 'active' : ''}`}
+                            onClick={() => handleOrderTabClick('past')}
+                        >
+                            Past Orders
+                        </button>
                     </div>
+                    <ul className="orders-list">
+                        {(activeOrderTab === 'ongoing' ? ongoingOrders : pastOrders).map((order) => (
+                            <li key={order._id} className="order-card">
+                                <div><strong>Date:</strong> {new Date(order.date).toLocaleDateString()}</div>
+                                <div><strong>Total:</strong> R{order.total.toFixed(2)}</div>
+                                <div><strong>Restaurant:</strong> {order.restaurant}</div>
+                                <div><strong>Status:</strong> {order.status}</div>
+                                {order.status !== 'completed' && (
+                                    <button
+                                        className="button"
+                                        onClick={() => completeOrder(order.orderID)}
+                                        disabled={order.status !== 'ready for collection'}
+                                    >
+                                        {order.status === 'ready for collection' ? 'Collected' : 'Not Ready'}
+                                    </button>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                  
                 </>
             ) : (
                 <p>Loading...</p>

@@ -107,38 +107,118 @@
 .order-card button:hover:enabled {
     background-color: #005bb5;
 }
+/* Order Tabs */
+.order-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+    border-bottom: 2px solid #e0e0e0;
+}
 
+.order-tabs .button {
+    background-color: #f1f1f1;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 12px 25px;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.order-tabs .button.active {
+    background-color: #0075fa;
+    color: white;
+    border-bottom: none;
+}
+
+.orders-content {
+    background-color: white;
+    padding: 15px;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.order-card div {
+    margin: 5px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.order-card strong {
+    color: #0d61c0;
+}
+
+.order-card button {
+    background-color: #0075fa;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.order-card button:disabled {
+    background-color: #fc0808;
+    cursor: not-allowed;
+}
+
+
+/* Reservation Tabs */
 .reservation-tabs {
     display: flex;
-    gap: 10px;
+    justify-content: center;
     margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+    gap: 10px;
 }
 
 .reservation-tabs .button {
     background-color: #f1f1f1;
     color: #333;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 12px 25px;
+    border-radius: 5px 5px 0 0;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-right: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .reservation-tabs .button:hover {
     background-color: #ddd;
 }
 
-.active {
+.reservation-tabs .button.active {
     background-color: #0075fa;
     color: white;
+    border-bottom: none;
     font-weight: bold;
 }
 
-.active:hover {
-    background-color: #005bb5;
+.reservations-content {
+    background-color: white;
+    padding: 15px;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Reservation Card */
 .reservation-card {
     background-color: #ffffff;
     padding: 15px;
@@ -149,7 +229,7 @@
 }
 
 .reservation-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -163,6 +243,7 @@
     color: #0d61c0;
 }
 
+/* Delete Reservation Button */
 .reservation-card button {
     background-color: #da2121;
     color: white;

@@ -312,6 +312,55 @@ input[type="text"] {
   margin-bottom: 20px;
 }
 
+/* Tab container */
+.reservation-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Tab button styles */
+.tab-button {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 20px;
+  margin: 0 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease, color 0.3s ease;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Active tab styling */
+.tab-button.active {
+  border-bottom: 2px solid #0071e3;
+  color: #0071e3;
+}
+
+/* Hover effect on tabs */
+.tab-button:hover {
+  color: #005bb5;
+}
+
+/* Content section below tabs */
+.reservations-content ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.reservation-card {
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
 
 /* Footer */
 .footer {
