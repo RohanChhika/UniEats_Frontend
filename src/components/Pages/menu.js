@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../../App.css';
 import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MenuPage = () => {
   const { name } = useParams();
@@ -101,8 +103,6 @@ const MenuPage = () => {
           const data = await response.json();
           if (response.ok) {
             setDeepLinkURL(data.deepLinkUrl); 
-            const googleMapsURL = `https://www.google.com/maps/search/?api=1&query=${lat},${long}`;
-            setGoogleMapsSearchURL(googleMapsURL)
             console.log(data);
           } else {
             throw new Error('Failed to fetch deep link URL');
@@ -111,9 +111,10 @@ const MenuPage = () => {
           console.error('Error fetching deep link URL:', error);
         }
       }
-      
+      const googleMapsURL = `https://www.google.com/maps/search/?api=1&query=${lat},${long}`;
+      setGoogleMapsSearchURL(googleMapsURL)
     };
-
+    
     fetchMenuItems();
     fetchReviews();
     fetchDeepLinkURL();
@@ -194,11 +195,11 @@ const MenuPage = () => {
           } else {
               const errorData = await response.json();
               console.error('Error placing order:', errorData.message);
-              alert('Failed to place the order. Insufficient Funds.');
+              toast.error('Failed to place the order. Insufficient Funds.');
           }
       } catch (error) {
           console.error('Network error:', error);
-          alert('Failed to place the order. Please try again.');
+          toast.error('Failed to place the order. Please try again.');
       }
   }
 };
@@ -223,7 +224,7 @@ const MenuPage = () => {
             </a>
             ) : (
             <a href={googleMapsSearchURL} target="_blank" rel="noopener noreferrer">
-            Link currently unavailable but click for a surprise
+            Click here for directions to this resturant {decodedName}
             </a>
           )}
           <div className="mobile-separator"></div>
@@ -292,6 +293,7 @@ const MenuPage = () => {
           )}
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
     </div>
   );
 

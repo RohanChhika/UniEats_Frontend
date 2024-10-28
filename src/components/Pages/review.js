@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function ReviewForm() {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
@@ -31,15 +33,15 @@ function ReviewForm() {
             if (response.ok) {
                 const result = await response.json();
                 console.log(result.message); // or handle the response as needed
-                alert('Review submitted successfully!');
+                toast.success('Review submitted successfully!');
             } else {
                 const errorData = await response.json();
                 console.error('Error:', errorData.message);
-                alert('Failed to submit review. Please try again.');
+                toast.error('Failed to submit review. Please try again.');
             }
         } catch (error) {
             console.error('Network error:', error);
-            alert('Failed to submit review. Please try again.');
+            toast.error('Failed to submit review. Please try again.');
         }
 
         // Reset form fields
@@ -77,6 +79,7 @@ function ReviewForm() {
                 </div>
                 <button type="submit" className='Submit'>Submit Review</button>
             </form>
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
         </div>
     );
 }

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../../Profile.css';
 import { useNavigate } from 'react-router-dom';
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Profile = () => {
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [orders, setOrders] = useState([]);
@@ -122,10 +123,10 @@ const Profile = () => {
             if (response.ok) {
                 navigate(0);
             } else {
-                alert(`Failed to complete order: ${result.message}`);
+                toast.error(`Failed to complete order: ${result.message}`);
             }
         } catch (error) {
-            alert('An error occurred while completing the order.');
+            toast.error('An error occurred while completing the order.');
         }
     };
 
@@ -135,7 +136,7 @@ const Profile = () => {
 
     const handleYocoPayment = () => {
         if (!amount || isNaN(amount) || amount <= 0) {
-            alert('Please enter a valid amount');
+            toast.error('Please enter a valid amount');
             return;
         }
 
@@ -146,7 +147,7 @@ const Profile = () => {
             description: `Purchase ${amount} credits`,
             callback: async function (result) {
                 if (result.error) {
-                    alert("Error: " + result.error.message);
+                    toast.error("Error: " + result.error.message);
                 } else {
                     try {
                         const token = await getAccessTokenSilently();
@@ -166,14 +167,14 @@ const Profile = () => {
                         if (response.ok) {
                             // const data = await response.json();
                             setCredits(prevCredits => prevCredits + parseFloat(amount));
-                            alert('Credits purchased successfully!');
+                            toast.success('Credits purchased successfully!');
                             setAmount('');
                         } else {
-                            alert('Failed to purchase credits. Please try again.');
+                            toast.error('Failed to purchase credits. Please try again.');
                         }
                     } catch (error) {
                         console.error('Error purchasing credits:', error);
-                        alert('An error occurred while purchasing credits.');
+                        toast.error('An error occurred while purchasing credits.');
                     }
                 }
             }
@@ -204,15 +205,15 @@ const pastOrders = orders.filter((order) => order.status === 'completed');
                     setReservations(prevReservations =>
                         prevReservations.filter(reservation => reservation._id !== reservationId)
                     );
-                    alert('Reservation deleted successfully');
+                    toast.success('Reservation deleted successfully');
                 } else {
                     const errorData = await response.json();
                     console.error('Error deleting reservation:', errorData.message);
-                    alert('Failed to delete the reservation. Please try again.');
+                    toast.error('Failed to delete the reservation. Please try again.');
                 }
             } catch (error) {
                 console.error('Error deleting reservation:', error.message);
-                alert('Failed to delete the reservation. Please try again.');
+                toast.error('Failed to delete the reservation. Please try again.');
             }
         }
     };
@@ -220,12 +221,16 @@ const pastOrders = orders.filter((order) => order.status === 'completed');
     const now = new Date();
     const filteredReservations = reservations.filter(reservation => {
         const reservationDate = new Date(reservation.date);
+        const [hours, minutes] = reservation.time.split(':');
+        reservationDate.setHours(hours, minutes, 0, 0); 
         return isUpcoming ? reservationDate >= now : reservationDate < now;
     });
+    
     
     return (
         <div className="profile-container">
             <h1 className="profile-title">User Profile</h1>
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
             {isAuthenticated ? (
                 <>
                     <div className="profile-card">

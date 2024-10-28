@@ -7,17 +7,27 @@ const LoginLogoutButton = () => {
   const location = useLocation();
   const isLandingPage = location.pathname === '/';
 
+
   if (isAuthenticated){
     return (
       <>
         {!isLandingPage && (
           <button className="button" onClick={() => window.history.back()}>Back</button>
         )}
+        {!isLandingPage &&  (
+        <Link to={`/`}>
+        <button className="button">Back To Home</button> 
+        </Link>
+        )}
 
       <Link to={`/profile`}>
       <button className="button">View my Profile</button> 
        </Link>
       <button className="button" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}> Log Out</button>
+
+
+
+
 
       </>
     );

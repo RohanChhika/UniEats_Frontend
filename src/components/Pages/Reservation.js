@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ReservationPage = () => {
     const { name } = useParams(); 
@@ -25,6 +27,16 @@ const ReservationPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Combine date and time from the form
+        const reservationDateTime = new Date(`${reservationData.date}T${reservationData.time}`);
+        const now = new Date();
+
+        // Check if reservation date and time are in the past
+        if (reservationDateTime < now) {
+            toast.error("Reservation date and time cannot be in the past. Please select a valid date and time.");
+            return;
+        }
+
         const reservationPayload = {
             date: reservationData.date,
             time: reservationData.time,
@@ -48,7 +60,7 @@ const ReservationPage = () => {
             if (response.ok) {
                 const result = await response.json();
                 console.log('Reservation submitted:', result);
-                alert(`Reservation submitted for ${decodedName}!`);
+                toast.success(`Reservation submitted for ${decodedName}!`);
                 // Optionally redirect or clear the form
                 setReservationData({
                     date: '',
@@ -59,11 +71,11 @@ const ReservationPage = () => {
             } else {
                 const errorData = await response.json();
                 console.error('Error submitting reservation:', errorData.message);
-                alert('Failed to submit reservation. Please try again.');
+                toast.error('Failed to submit reservation. Please try again.');
             }
         } catch (error) {
             console.error('Network error:', error);
-            alert('Failed to submit reservation. Please try again.');
+            toast.error('Failed to submit reservation. Please try again.');
         }
     };
 
@@ -100,6 +112,7 @@ const ReservationPage = () => {
                 </div>
                 <button type="submit" className='submitReservation'>Submit Reservation</button>
             </form>
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
         </div>
         
     );
