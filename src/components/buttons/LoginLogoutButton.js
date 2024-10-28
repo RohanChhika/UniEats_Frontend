@@ -6,6 +6,7 @@ const LoginLogoutButton = () => {
   const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
   const location = useLocation();
   const isLandingPage = location.pathname === '/';
+  const isProfile = location.pathname === '/profile';
 
 
   if (isAuthenticated){
@@ -20,9 +21,13 @@ const LoginLogoutButton = () => {
         </Link>
         )}
 
-      <Link to={`/profile`}>
-      <button className="button">View my Profile</button> 
-       </Link>
+        {!isProfile &&  (
+         <Link to={`/profile`}>
+         <button className="button">View my Profile</button> 
+          </Link>
+        )}
+
+     
       <button className="button" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}> Log Out</button>
 
 
