@@ -52,8 +52,9 @@ const MenuPage = () => {
         });
         const reviewData = await response.json();
         if (response.ok) {
-          setReviews(reviewData);
-          console.log(reviewData);
+          const sortedReviews = reviewData.sort((a, b) => new Date(b.date) - new Date(a.date)).reverse();
+          setReviews(sortedReviews.slice(0, 5));
+
         } else {
           throw new Error('Failed to fetch reviews');
         }
@@ -283,8 +284,16 @@ const MenuPage = () => {
           {reviews.length > 0 ? (
             <ul>
               {reviews.map((review, index) => (
-                <li key={index}>
-                  {review.comment} - Rating: {review.rating}/5
+                <li key={index} className="review-card">
+                  <p>{review.comment}</p>
+                  <div className="rating">
+                    {Array(Math.floor(review.rating)).fill(null).map((_, i) => (
+                      <span key={i}>★</span>
+                    ))}
+                    {Array(5 - Math.floor(review.rating)).fill(null).map((_, i) => (
+                      <span key={i}>☆</span>
+                    ))}
+                  </div>
                 </li>
               ))}
             </ul>

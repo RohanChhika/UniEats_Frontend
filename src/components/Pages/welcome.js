@@ -1,18 +1,31 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import aboutUsImage from '../Images/aboutus.png';
 import burgerback from '../Images/burgerback.png';
 // import LoginLogoutButton from "../buttons/LoginLogoutButton";
 import '../../App.css';
 
+const restaurants = [
+    "Zesti Lemonz",
+    "Delhi Delicous",
+    "Vida e Caffe",
+    "Jimmys Killer Fish and Chips (Matrix)",
+    "Olives & Plates",
+    "Kara Nichas (Matrix)",
+];
+
+const getRandomRestaurants = (arr, max) => {
+    // Shuffle the array
+    const shuffled = arr.sort(() => 0.5 - Math.random());
+    // Return the first `max` elements
+    return shuffled.slice(0, max);
+};
 
 const Welcome = ({ showHeaderFooter = true }) => {
-    
     const [events, setEvents] = useState([]);
-    
 
     useEffect(() => {
         const sections = document.querySelectorAll(".about-us-section, .features-section");
-    
+
         const handleScroll = () => {
             sections.forEach((section) => {
                 const sectionTop = section.getBoundingClientRect().top;
@@ -21,12 +34,10 @@ const Welcome = ({ showHeaderFooter = true }) => {
                 }
             });
         };
-    
+
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
-    
-    
 
     useEffect(() => {
         fetch('https://eventsapi3a.azurewebsites.net/api/events/upcoming-events')
@@ -39,10 +50,10 @@ const Welcome = ({ showHeaderFooter = true }) => {
             .then(data => {
                 console.log(data);  // log the whole response
                 setEvents(data.data);  // set the events to the data array
-                console.log(events);
             })
             .catch(error => console.error('Error fetching events:', error));
-    }, [events]);
+    }, []); // Removed `events` from the dependency array
+
     return (
         <main className="home-screen"> 
             {/* {showHeaderFooter && (
@@ -104,19 +115,28 @@ const Welcome = ({ showHeaderFooter = true }) => {
                     </section>
                 </article>
             </section>
+
             <section id="events" className="features-section">
                 <h2>Upcoming Events</h2>
                 <article className="features-container">
                     {events.length > 0 ? (
-                        events.map((event, index) => (
-                            <section key={index} className="feature">
-                                <h3>Event Name: {event.title}</h3>
-                                <p>Date: {event.date}</p>
-                                {/* <p>Restaurant: {event.restaurant}</p> */}
-                                <p>Location: {event.location}</p>
-                                <p>Ticket Price: {event.ticketPrice}</p>
-                            </section>
-                        ))
+                        events.map((event, index) => {
+                            const selectedRestaurants = getRandomRestaurants(restaurants, 2); // Moved inside the map function
+                            return (
+                                <section key={index} className="feature">
+                                    <h3>Event Name: {event.title}</h3>
+                                    <p>Date: {event.date}</p>
+                                    <p>Location: {event.location}</p>
+                                    <p>Ticket Price: {event.ticketPrice}</p>
+                                    <p>Restaurants Available at this Event:</p>
+                                    <ul>
+                                        {selectedRestaurants.map((restaurant, idx) => (
+                                            <li key={idx}>{restaurant}</li>
+                                        ))}
+                                    </ul>
+                                </section>
+                            );
+                        })
                     ) : (
                         <p>No upcoming events at the moment.</p>
                     )}

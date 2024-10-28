@@ -642,10 +642,15 @@ input[type="text"] {
 }
 
 /* Review Page */
+body {
+  background: linear-gradient(135deg, #ffffff, #0397b1);
+}
+
 .review{
   padding: 20px;
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 500px;
+  height: 450px;
+  margin: 20px auto 20px auto;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -693,7 +698,8 @@ input[type="text"] {
 .reservation-page {
   padding: 20px;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 20px auto 20px auto;
+
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -1000,7 +1006,7 @@ input[type="text"] {
   /* Profile Page Styles */
 .profile-container {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 20px auto 20px auto;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 10px;
